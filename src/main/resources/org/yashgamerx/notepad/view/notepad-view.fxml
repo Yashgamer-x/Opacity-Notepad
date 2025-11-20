@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.CheckMenuItem?>
 <VBox alignment="CENTER" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.yashgamerx.notepad.controller.NotepadController">
 
     <MenuBar>
@@ -31,6 +32,7 @@
                     </content>
                 </CustomMenuItem>
             </Menu>
+            <CheckMenuItem mnemonicParsing="false" text="Word wrap" onAction="#onWordWrapClicked"/>
         </Menu>
     </MenuBar>
     <TabPane fx:id="tabPane" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">

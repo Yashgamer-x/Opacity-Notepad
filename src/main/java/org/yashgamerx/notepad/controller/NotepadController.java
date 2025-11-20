@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -126,6 +127,15 @@ public class NotepadController {
 
         //Step 2: Create and load New Tab
         createNewTab(null);
+    }
+
+    @FXML
+    private void onWordWrapClicked(ActionEvent actionEvent) {
+        var checkMenuItem = (CheckMenuItem) actionEvent.getSource();
+        var tab = tabPane.getSelectionModel().getSelectedItem();
+        var notepadTabController = (NotepadTabController) tab.getUserData();
+        var textArea = notepadTabController.getTextArea();
+        textArea.setWrapText(checkMenuItem.isSelected());
     }
 }
 
