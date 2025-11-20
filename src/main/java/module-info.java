@@ -2,6 +2,7 @@ module org.yashgamerx.notepad {
     requires javafx.controls;
     requires javafx.fxml;
     requires static lombok;
+    requires java.logging;
 
 
     opens org.yashgamerx.notepad to javafx.fxml;
@@ -10,4 +11,5 @@ module org.yashgamerx.notepad {
     opens org.yashgamerx.notepad.handler to javafx.fxml;
     exports org.yashgamerx.notepad.controller;
     opens org.yashgamerx.notepad.controller to javafx.fxml;
+    exports org.yashgamerx.notepad.model;
 }

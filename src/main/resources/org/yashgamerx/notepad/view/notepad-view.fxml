@@ -16,19 +16,21 @@
         <Menu mnemonicParsing="false" text="File">
             <MenuItem accelerator="Ctrl+O" mnemonicParsing="false" onAction="#onOpenFile" text="Open" />
          <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem mnemonicParsing="false" text="Save" />
+         <MenuItem accelerator="Ctrl+S" mnemonicParsing="false" text="Save" onAction="#onSaveFile"/>
          <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem mnemonicParsing="false" text="Save As" />
+         <MenuItem accelerator="Ctrl+Shift+S" mnemonicParsing="false" text="Save As" onAction="#onSaveAsFile" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem mnemonicParsing="false" text="Delete" />
         </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-            <CustomMenuItem hideOnClick="false" mnemonicParsing="false">
-                <content>
-                    <Slider fx:id="scaleSlider" min="20.0" prefWidth="120" value="100.0" />
-                </content>
-            </CustomMenuItem>
+        <Menu mnemonicParsing="false" text="View">
+            <Menu mnemonicParsing="false" text="Opacity">
+                <CustomMenuItem hideOnClick="false" mnemonicParsing="false">
+                    <content>
+                        <Slider fx:id="scaleSlider" min="20.0" prefWidth="120" value="100.0" />
+                    </content>
+                </CustomMenuItem>
+            </Menu>
         </Menu>
     </MenuBar>
     <TabPane fx:id="tabPane" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
