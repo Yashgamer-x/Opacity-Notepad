@@ -1,8 +1,12 @@
 package org.yashgamerx.notepad.controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import org.yashgamerx.notepad.handler.StageHandler;
@@ -12,6 +16,8 @@ import java.nio.file.Files;
 
 public class NotepadController {
 
+    @FXML
+    private TabPane tabPane;
     @FXML
     private Slider scaleSlider;
 
@@ -37,6 +43,31 @@ public class NotepadController {
         try {
             String content = Files.readString(file.toPath());
             textArea.setText(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void addNewTab(Event event) {
+        var tab = (Tab) event.getSource();
+        if(!tab.isSelected()) return;
+        try {
+            var loader = new FXMLLoader(
+                    getClass().getResource("/org/yashgamerx/notepad/view/notepad-tab-template.fxml")
+            );
+
+            Tab newTab = loader.load();
+
+            // Rename based on index
+            newTab.setText("Untitled " + (tabPane.getTabs().size()));
+
+            // Insert before "+" tab
+            tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab);
+
+            // Select the new tab
+            tabPane.getSelectionModel().select(newTab);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
