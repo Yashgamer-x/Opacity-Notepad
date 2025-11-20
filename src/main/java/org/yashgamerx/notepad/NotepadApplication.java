@@ -14,7 +14,7 @@ public class NotepadApplication extends Application {
         StageHandler.setStage(stage);
         FXMLLoader fxmlLoader = new FXMLLoader(NotepadApplication.class.getResource("/org/yashgamerx/notepad/view/notepad-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        stage.setTitle("Opacity Notepad");
         stage.setScene(scene);
         stage.show();
     }

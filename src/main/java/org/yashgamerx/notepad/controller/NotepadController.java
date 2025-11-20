@@ -10,6 +10,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import org.yashgamerx.notepad.handler.StageHandler;
+import org.yashgamerx.notepad.handler.TabNumberHandler;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,6 +24,9 @@ public class NotepadController {
 
     @FXML
     private void initialize() {
+        /*Binding the stage's opacity property to scaleSlider's value property
+        Remember Stage Opacity range is: 0.0 - 1.0
+        Slider Value range is: 0 - 100*/
         var stage = StageHandler.getStage();
         stage.opacityProperty().bind(scaleSlider.valueProperty().divide(100.0));
     }
@@ -60,7 +64,7 @@ public class NotepadController {
             Tab newTab = loader.load();
 
             // Rename based on index
-            newTab.setText("Untitled " + (tabPane.getTabs().size()));
+            newTab.setText("Untitled " + TabNumberHandler.postIncrement());
 
             // Insert before "+" tab
             tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab);
