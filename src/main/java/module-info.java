@@ -3,6 +3,8 @@ module org.yashgamerx.notepad {
     requires javafx.fxml;
     requires static lombok;
     requires java.logging;
+    requires javafx.graphics;
+    requires javafx.base;
 
 
     opens org.yashgamerx.notepad to javafx.fxml;

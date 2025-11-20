@@ -6,7 +6,7 @@ import javafx.scene.control.TextArea;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
-import org.yashgamerx.notepad.handler.WordWrapHandler;
+import org.yashgamerx.notepad.handler.GlobalHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
 
 import java.io.IOException;
@@ -27,7 +27,8 @@ public class NotepadTabController {
     @FXML
     private void initialize()
     {
-        textArea.wrapTextProperty().bind(WordWrapHandler.getWordWrapBooleanProperty());
+        textArea.wrapTextProperty().bind(GlobalHandler.getWordWrapBooleanProperty());
+        textArea.fontProperty().bind(GlobalHandler.getCurrentFont());
     }
 
     public void setModel(NotepadTabModel model) {

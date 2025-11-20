@@ -8,11 +8,11 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import lombok.extern.java.Log;
-import org.yashgamerx.notepad.handler.StageHandler;
+import org.yashgamerx.notepad.handler.GlobalHandler;
 import org.yashgamerx.notepad.handler.TabNumberHandler;
-import org.yashgamerx.notepad.handler.WordWrapHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
 import org.yashgamerx.notepad.settings.Settings;
 
@@ -34,7 +34,7 @@ public class NotepadController {
         /*Binding the stage's opacity property to scaleSlider's value property
         Remember Stage Opacity range is: 0.0 - 1.0
         Slider Value range is: 0 - 100*/
-        var stage = StageHandler.getStage();
+        var stage = GlobalHandler.getStage();
 
         // Load previous opacity (default = 100)
         double savedOpacity = Double.parseDouble(Settings.get("opacity", "100"));
@@ -44,9 +44,13 @@ public class NotepadController {
 
         // Load previous wordwrap (default = false)
         boolean savedWordWrap = Boolean.parseBoolean(Settings.get("wordwrap", "false"));
-        WordWrapHandler.getWordWrapBooleanProperty().set(savedWordWrap);
+        GlobalHandler.getWordWrapBooleanProperty().set(savedWordWrap);
         wordWrapCheckMenuItem.setSelected(savedWordWrap);
         log.info("WordWrap set to: " + savedWordWrap);
+
+        // Load Font (default = 12px black)
+        double size = Double.parseDouble(Settings.get("font.size", "12"));
+        GlobalHandler.getCurrentFont().set(new Font(size));
 
         // When slider changes → save value
         scaleSlider.valueProperty().addListener((_, _, newVal) -> {
@@ -60,7 +64,7 @@ public class NotepadController {
     private void onOpenFile() {
         //Step 1: Let the user choose a file
         var chooser = new FileChooser();
-        var file = chooser.showOpenDialog(StageHandler.getStage());
+        var file = chooser.showOpenDialog(GlobalHandler.getStage());
         if (file == null) return;
 
         //Step 2: Create a New Tab
@@ -105,7 +109,7 @@ public class NotepadController {
 
         //Step 4: Open up a prompt for choosing the file
         var chooser = new FileChooser();
-        var file = chooser.showSaveDialog(StageHandler.getStage());
+        var file = chooser.showSaveDialog(GlobalHandler.getStage());
         if (file == null) return;
 
         //Step 5: Set a path for the model's filepath and change the tab's file name
@@ -166,9 +170,33 @@ public class NotepadController {
         //Step 1: Get the CheckMenuItem
         var checkMenuItem = (CheckMenuItem) actionEvent.getSource();
         //Step 2: Change the WordWrapHandlerProperty based on checkMenuItem's selection
-        WordWrapHandler.getWordWrapBooleanProperty().set(checkMenuItem.isSelected());
+        GlobalHandler.getWordWrapBooleanProperty().set(checkMenuItem.isSelected());
         //Step 3: Set the wordwrap property value
         Settings.set("wordwrap", String.valueOf(checkMenuItem.isSelected()));
+        //Step 4: save the settings
+        Settings.save();
+    }
+
+    @FXML
+    private void onIncreaseFontSize() {
+        var font = GlobalHandler.getCurrentFont().get();
+        var size = font.getSize();
+        size++;
+        GlobalHandler.getCurrentFont().set(new Font(size));
+
+        Settings.set("font.size", String.valueOf(size));
+        //Step 4: save the settings
+        Settings.save();
+    }
+
+    @FXML
+    public void onDecreaseFontSize() {
+        var font = GlobalHandler.getCurrentFont().get();
+        var size = font.getSize();
+        size--;
+        GlobalHandler.getCurrentFont().set(new Font(size));
+
+        Settings.set("font.size", String.valueOf(size));
         //Step 4: save the settings
         Settings.save();
     }

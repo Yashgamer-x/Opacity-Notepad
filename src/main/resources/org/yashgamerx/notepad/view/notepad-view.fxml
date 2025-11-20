@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.CustomMenuItem?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -10,16 +11,15 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.CheckMenuItem?>
 <VBox alignment="CENTER" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.yashgamerx.notepad.controller.NotepadController">
 
     <MenuBar>
         <Menu mnemonicParsing="false" text="File">
             <MenuItem accelerator="Ctrl+O" mnemonicParsing="false" onAction="#onOpenFile" text="Open" />
          <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem accelerator="Ctrl+S" mnemonicParsing="false" text="Save" onAction="#onSaveFile"/>
+         <MenuItem accelerator="Ctrl+S" mnemonicParsing="false" onAction="#onSaveFile" text="Save" />
          <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem accelerator="Ctrl+Shift+S" mnemonicParsing="false" text="Save As" onAction="#onSaveAsFile" />
+         <MenuItem accelerator="Ctrl+Shift+S" mnemonicParsing="false" onAction="#onSaveAsFile" text="Save As" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem mnemonicParsing="false" text="Delete" />
@@ -32,7 +32,12 @@
                     </content>
                 </CustomMenuItem>
             </Menu>
-            <CheckMenuItem mnemonicParsing="false" text="Word wrap" fx:id="wordWrapCheckMenuItem" onAction="#onWordWrapClicked"/>
+         <SeparatorMenuItem mnemonicParsing="false" />
+            <CheckMenuItem fx:id="wordWrapCheckMenuItem" mnemonicParsing="false" onAction="#onWordWrapClicked" text="Word wrap" />
+            <Menu mnemonicParsing="false" text="Font">
+                <MenuItem mnemonicParsing="false" accelerator="Ctrl+Shift+Equals" onAction="#onIncreaseFontSize" text="Increase Size"/>
+                <MenuItem mnemonicParsing="false" accelerator="Ctrl+Minus" onAction="#onDecreaseFontSize" text="Decrease Size"/>
+            </Menu>
         </Menu>
     </MenuBar>
     <TabPane fx:id="tabPane" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
