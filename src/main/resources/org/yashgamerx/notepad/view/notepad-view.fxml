@@ -32,7 +32,7 @@
                     </content>
                 </CustomMenuItem>
             </Menu>
-            <CheckMenuItem mnemonicParsing="false" text="Word wrap" onAction="#onWordWrapClicked"/>
+            <CheckMenuItem mnemonicParsing="false" text="Word wrap" fx:id="wordWrapCheckMenuItem" onAction="#onWordWrapClicked"/>
         </Menu>
     </MenuBar>
     <TabPane fx:id="tabPane" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">

@@ -13,9 +13,10 @@ public class NotepadApplication extends Application {
     public void start(Stage stage) throws IOException {
         StageHandler.setStage(stage);
         FXMLLoader fxmlLoader = new FXMLLoader(NotepadApplication.class.getResource("/org/yashgamerx/notepad/view/notepad-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
         stage.setTitle("Opacity Notepad");
         stage.setScene(scene);
+        stage.setAlwaysOnTop(true);
         stage.show();
     }
 }
