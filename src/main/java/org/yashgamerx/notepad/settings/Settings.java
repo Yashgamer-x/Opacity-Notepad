@@ -3,6 +3,8 @@ package org.yashgamerx.notepad.settings;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,8 +22,17 @@ public class Settings {
     }
 
     private static void load() {
-        try (FileInputStream fis = new FileInputStream(FILE_NAME)) {
-            props.load(fis);
+        try {
+            var file = new File(FILE_NAME);
+            // Create file if it does not exist
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            // Now load it
+            try (FileInputStream fis = new FileInputStream(file)) {
+                props.load(fis);
+            }
         } catch (IOException e) {
             log.severe("Failed to load notepad-settings.properties");
             log.log(Level.SEVERE, "Failed to load notepad-settings.properties", e);
