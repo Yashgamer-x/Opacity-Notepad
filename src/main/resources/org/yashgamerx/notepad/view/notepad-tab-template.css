@@ -1,0 +1,5 @@
+/* Remove focus highlight for THIS TextArea only */
+#textArea:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
