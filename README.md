@@ -96,8 +96,11 @@ Contributing
 - Keep builds reproducible; prefer official JavaFX platform classifiers and avoid shading JavaFX.  
 - Add platform packaging changes or CI workflows under `.github/workflows` or `docs/packaging.md`.
 
-License
-- Include a LICENSE file in the repository root. Recommended: **Apache License 2.0** (permissive with an explicit patent grant) or **MIT** for maximum simplicity.
+## License
+
+Opacity-Notepad is licensed under the Apache License, Version 2.0. See the `LICENSE` file in the repository root for the full license text.
+
+**Copyright** © 2025 Yash Desai
 
 ---
 
