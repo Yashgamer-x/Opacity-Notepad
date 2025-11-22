@@ -1,0 +1,108 @@
+
+
+Version:	3.50
+CmdLine:	D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	D:\JavaPrograms\Opacity-Notepad\Executable\.
+Requires JDK:	Yes
+Requires 64-Bit: Yes
+Java min ver:	1.025.000
+Java max ver:	
+Substitute:	JAVA_HOME = C:\Program Files\Java\jdk-25
+JRE paths:	C:\Program Files\Java\jdk-25
+Check launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe (OK)
+Check javac:	C:\Program Files\Java\jdk-25\bin\javac.exe (OK)
+Version string: 1.025.000 / 64-Bit (OK)
+Launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe
+Launcher args:	-jar "D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe"
+Args length:	69/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	D:\JavaPrograms\Opacity-Notepad\Executable\.
+Requires JDK:	Yes
+Requires 64-Bit: Yes
+Java min ver:	1.025.000
+Java max ver:	
+Substitute:	JAVA_HOME = C:\Program Files\Java\jdk-25
+JRE paths:	C:\Program Files\Java\jdk-25
+Check launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe (OK)
+Check javac:	C:\Program Files\Java\jdk-25\bin\javac.exe (OK)
+Version string: 1.025.000 / 64-Bit (OK)
+Main class:	org.yashgamerx.notepad
+Info:		Classpath not defined.
+Launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe
+Launcher args:	-classpath "D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe" org.yashgamerx.notepad
+Args length:	98/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	D:\JavaPrograms\Opacity-Notepad\Executable\.
+Requires JDK:	Yes
+Requires 64-Bit: Yes
+Java min ver:	1.025.000
+Java max ver:	
+Substitute:	JAVA_HOME = C:\Program Files\Java\jdk-25
+JRE paths:	C:\Program Files\Java\jdk-25
+Check launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe (OK)
+Check javac:	C:\Program Files\Java\jdk-25\bin\javac.exe (OK)
+Version string: 1.025.000 / 64-Bit (OK)
+Main class:	org.yashgamerx.notepad.Launcher
+Info:		Classpath not defined.
+Launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe
+Launcher args:	-classpath "D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe" org.yashgamerx.notepad.Launcher
+Args length:	107/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	D:\JavaPrograms\Opacity-Notepad\Executable\.
+Requires JDK:	Yes
+Requires 64-Bit: Yes
+Java min ver:	1.025.000
+Java max ver:	
+Substitute:	JAVA_HOME = C:\Program Files\Java\jdk-25
+JRE paths:	C:\Program Files\Java\jdk-25
+Check launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe (OK)
+Check javac:	C:\Program Files\Java\jdk-25\bin\javac.exe (OK)
+Version string: 1.025.000 / 64-Bit (OK)
+Main class:	org.yashgamerx.notepad.Launcher
+Info:		Classpath not defined.
+Launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe
+Launcher args:	-classpath "D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe" org.yashgamerx.notepad.Launcher
+Args length:	107/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	D:\JavaPrograms\Opacity-Notepad\Executable\.
+Requires JDK:	Yes
+Requires 64-Bit: Yes
+Java min ver:	1.025.000
+Java max ver:	
+Substitute:	JAVA_HOME = C:\Program Files\Java\jdk-25
+JRE paths:	C:\Program Files\Java\jdk-25
+Check launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe (OK)
+Check javac:	C:\Program Files\Java\jdk-25\bin\javac.exe (OK)
+Version string: 1.025.000 / 64-Bit (OK)
+Main class:	org.yashgamerx.notepad.Launcher
+Info:		Classpath not defined.
+Launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe
+Launcher args:	-classpath "D:\JavaPrograms\Opacity-Notepad\Executable\Opacity-Notepad.exe" org.yashgamerx.notepad.Launcher
+Args length:	107/32768 chars
+Exit code:	0

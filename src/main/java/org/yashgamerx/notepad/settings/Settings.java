@@ -23,7 +23,7 @@ public class Settings {
 
     private static void load() {
         try {
-            var file = new File(FILE_NAME);
+            var file = new File(System.getProperty("user.dir")+File.separator+FILE_NAME);
             // Create file if it does not exist
             if (!file.exists()) {
                 file.createNewFile();
