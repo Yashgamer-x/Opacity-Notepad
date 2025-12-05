@@ -10,6 +10,11 @@
      fx:controller="org.yashgamerx.notepad.controller.NotepadTabController"
      fx:id="tab">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-        <TextArea fx:id="textArea" promptText="Type the text here" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <TextArea fx:id="textArea"
+                  promptText="Type the text here"
+                  AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0"
+                  AnchorPane.topAnchor="0.0" />
     </AnchorPane>
 </Tab>

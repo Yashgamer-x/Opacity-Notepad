@@ -11,11 +11,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="500.0"
-      xmlns="http://javafx.com/javafx/23.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      stylesheets="@notepad-tab-template.css"
-      fx:controller="org.yashgamerx.notepad.controller.NotepadController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="500.0" stylesheets="@notepad-tab-template.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.yashgamerx.notepad.controller.NotepadController">
 
     <MenuBar>
         <Menu mnemonicParsing="false" text="File">
@@ -26,7 +22,7 @@
          <MenuItem accelerator="Ctrl+Shift+S" mnemonicParsing="false" onAction="#onSaveAsFile" text="Save As" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" text="Delete" />
+            <MenuItem mnemonicParsing="false" text="Find" onAction="#onFind" />
         </Menu>
         <Menu mnemonicParsing="false" text="View">
             <Menu mnemonicParsing="false" text="Opacity">
@@ -39,8 +35,8 @@
          <SeparatorMenuItem mnemonicParsing="false" />
             <CheckMenuItem fx:id="wordWrapCheckMenuItem" mnemonicParsing="false" onAction="#onWordWrapClicked" text="Word wrap" />
             <Menu mnemonicParsing="false" text="Font">
-                <MenuItem mnemonicParsing="false" accelerator="Ctrl+Shift+Equals" onAction="#onIncreaseFontSize" text="Increase Size"/>
-                <MenuItem mnemonicParsing="false" accelerator="Ctrl+Minus" onAction="#onDecreaseFontSize" text="Decrease Size"/>
+                <MenuItem accelerator="Ctrl+Shift+Equals" mnemonicParsing="false" onAction="#onIncreaseFontSize" text="Increase Size" />
+                <MenuItem accelerator="Ctrl+Minus" mnemonicParsing="false" onAction="#onDecreaseFontSize" text="Decrease Size" />
             </Menu>
         </Menu>
     </MenuBar>
