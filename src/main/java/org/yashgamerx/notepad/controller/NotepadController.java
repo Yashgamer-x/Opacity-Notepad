@@ -114,8 +114,9 @@ public class NotepadController {
 
         //Step 5: Set a path for the model's filepath and change the tab's file name
         model.setFilePath(file.toPath());
+        model.setTitle(file.getName());
         tab.setText(file.getName());
-
+        log.info("Saving File As : "+ file.getName());
         //Step 6: Call to save the file
         onSaveFile(e);
     }
