@@ -18,6 +18,7 @@
         <javafx.version>25.0.1</javafx.version>
         <junit.version>5.12.1</junit.version>
         <lombok.version>1.18.38</lombok.version>
+        <pf4j.version>3.14.0</pf4j.version>
     </properties>
 
     <!-- Dependencies -->
@@ -55,6 +56,11 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.pf4j</groupId>
+            <artifactId>pf4j</artifactId>
+            <version>${pf4j.version}</version>
         </dependency>
     </dependencies>
 
