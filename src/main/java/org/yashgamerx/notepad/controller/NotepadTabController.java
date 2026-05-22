@@ -1,24 +1,20 @@
 package org.yashgamerx.notepad.controller;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Font;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.java.Log;
-import org.yashgamerx.notepad.handler.GlobalHandler;
-import org.yashgamerx.notepad.model.NotepadTabModel;
+import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.logging.Level;
-
-@Log
-@Getter @Setter
+@Getter
 public class NotepadTabController {
+
+    private static final double BASE_FONT_SIZE = 12.0;
 
     @FXML
     private Tab tab;
@@ -29,57 +25,30 @@ public class NotepadTabController {
     @FXML
     private Label characters;
     @FXML
-    public Label zoomPercentage;
+    private Label zoomPercentage;
 
-    private NotepadTabModel model;
+    private NotepadTabViewModel viewModel;
 
-    @FXML
-    private void initialize()
-    {
-        textArea.wrapTextProperty().bind(GlobalHandler.getWordWrapBooleanProperty());
-        textArea.fontProperty().bind(GlobalHandler.getCurrentFont());
-    }
+    public void bind(
+            NotepadTabViewModel viewModel,
+            BooleanProperty wordWrapProperty,
+            ObjectProperty<Font> fontProperty
+    ) {
+        this.viewModel = viewModel;
 
-    public void setModel(NotepadTabModel model) {
-        this.model = model;
-        if (model.getFilePath() != null) {
-            try {
-                String content = Files.readString(model.getFilePath());
-                textArea.setText(content);
-            } catch (IOException e) {
-                log.log(Level.SEVERE, e.getMessage());
-            }
-        }
+        textArea.textProperty().bindBidirectional(viewModel.contentProperty());
+        textArea.wrapTextProperty().bind(wordWrapProperty);
+        textArea.fontProperty().bind(fontProperty);
 
-        //Binding the font size to the zoom percentage
-        var fontProp = GlobalHandler.getCurrentFont();
-        final double BASE_FONT_SIZE = 12.0;
+        tab.textProperty().bind(viewModel.displayTitleBinding());
+        numberOfLines.textProperty().bind(viewModel.lineCountBinding());
+        characters.textProperty().bind(viewModel.characterCountBinding());
+
         var percentBinding = Bindings.createDoubleBinding(
-                () -> (fontProp.get().getSize() / BASE_FONT_SIZE) * 100.0,
-                fontProp
+                () -> (fontProperty.get().getSize() / BASE_FONT_SIZE) * 100.0,
+                fontProperty
         );
+
         zoomPercentage.textProperty().bind(percentBinding.asString("%.0f%%"));
-
-        //Lines binding
-        var linesBinding = Bindings.createStringBinding(
-                () -> textArea.getParagraphs().size() + " Ln",
-                textArea.textProperty()
-        );
-        numberOfLines.textProperty().bind(linesBinding);
-
-        //Character Binding from TextArea
-        var charactersBinding = Bindings.createStringBinding(
-                () -> textArea.getLength() + " Characters",
-                textArea.textProperty()
-        );
-        characters.textProperty().bind(charactersBinding);
-
-        //Listener for textarea for every letter typed
-        textArea.textProperty().addListener((_, _, _) -> {
-            model.setModified(true);
-            if(model.isModified()) {
-                tab.setText(model.getTitle()+"*");
-            }
-        });
     }
 }

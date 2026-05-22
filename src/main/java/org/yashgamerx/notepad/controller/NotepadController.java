@@ -8,23 +8,28 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import lombok.extern.java.Log;
 import org.yashgamerx.notepad.handler.GlobalHandler;
 import org.yashgamerx.notepad.handler.TabNumberHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
-import org.yashgamerx.notepad.settings.mode.FontSetting;
-import org.yashgamerx.notepad.settings.Settings;
-import org.yashgamerx.notepad.settings.mode.OpacitySetting;
-import org.yashgamerx.notepad.settings.mode.WordWrapSetting;
+import org.yashgamerx.notepad.service.FileService;
+import org.yashgamerx.notepad.service.NotepadFileService;
+import org.yashgamerx.notepad.service.PropertiesSettingsService;
+import org.yashgamerx.notepad.service.SettingsService;
+import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
+import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.logging.Level;
 
 @Log
 public class NotepadController {
+    private final FileService fileService = new NotepadFileService();
+    private final SettingsService settingsService = new PropertiesSettingsService();
+    private final NotepadViewModel viewModel = new NotepadViewModel(settingsService);
+
     @FXML
     private TabPane tabPane;
     @FXML
@@ -34,175 +39,138 @@ public class NotepadController {
 
     @FXML
     private void initialize() {
-        /*Binding the stage's opacity property to scaleSlider's value property
-        Remember Stage Opacity range is: 0.0 - 1.0
-        Slider Value range is: 0 - 100*/
+        viewModel.loadSettings();
+
         var stage = GlobalHandler.getStage();
 
-        // Load previous opacity (default = 100)
-        double savedOpacity = Double.parseDouble(Settings.get("opacity", "100"));
-        scaleSlider.setValue(savedOpacity);
-        stage.setOpacity(savedOpacity/100.0);
-        log.info("Opacity set to: " + savedOpacity);
+        scaleSlider.valueProperty().bindBidirectional(viewModel.opacityProperty());
+        wordWrapCheckMenuItem.selectedProperty().bindBidirectional(viewModel.wordWrapProperty());
 
-        // Load previous wordwrap (default = false)
-        boolean savedWordWrap = Boolean.parseBoolean(Settings.get("wordwrap", "false"));
-        GlobalHandler.getWordWrapBooleanProperty().set(savedWordWrap);
-        wordWrapCheckMenuItem.setSelected(savedWordWrap);
-        log.info("WordWrap set to: " + savedWordWrap);
+        stage.opacityProperty().bind(viewModel.opacityProperty().divide(100.0));
 
-        // Load Font (default = 12px black)
-        double size = Double.parseDouble(Settings.get("font.size", "12"));
-        GlobalHandler.getCurrentFont().set(new Font(size));
-
-        // When slider changes → save value
-        scaleSlider.valueProperty().addListener((_, _, newVal) -> {
-            stage.setOpacity(newVal.doubleValue()/100.0);
-            OpacitySetting.set(newVal);
-            Settings.save();
-        });
+        viewModel.opacityProperty().addListener((_, _, _) -> viewModel.saveOpacity());
+        viewModel.wordWrapProperty().addListener((_, _, _) -> viewModel.saveWordWrap());
     }
 
     @FXML
     private void onOpenFile() {
-        //Step 1: Let the user choose a file
         var chooser = new FileChooser();
         var file = chooser.showOpenDialog(GlobalHandler.getStage());
-        if (file == null) return;
 
-        //Step 2: Create a New Tab
+        if (file == null) {
+            return;
+        }
+
         createNewTab(file.toPath());
     }
 
     @FXML
-    private void onSaveFile(ActionEvent e) {
-        //Step 1: Get the current tab
-        var tab = tabPane.getSelectionModel().getSelectedItem();
+    private void onSaveFile(ActionEvent event) {
+        var selectedTab = tabPane.getSelectionModel().getSelectedItem();
 
-        //Step 2: get the controller from the UserData section
-        var controller = (NotepadTabController) tab.getUserData();
-
-        //Step 3: get the Model
-        var model = controller.getModel();
-
-        //Step 4: If the model path is null then do "SAVE AS"
-        if (model.getFilePath() == null) {
-            onSaveAsFile(e);
+        if (selectedTab == null || selectedTab.getUserData() == null) {
             return;
         }
 
-        //Step 5: Write the String contents back to the FilePath
+        var tabViewModel = (NotepadTabViewModel) selectedTab.getUserData();
+
+        if (tabViewModel.getFilePath() == null) {
+            onSaveAsFile(event);
+            return;
+        }
+
         try {
-            Files.writeString(model.getFilePath(), controller.getTextArea().getText());
-            model.setModified(false);
-            tab.setText(model.getTitle());
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            tabViewModel.save();
+        } catch (IOException exception) {
+            log.log(Level.SEVERE, "Unable to save file.", exception);
         }
     }
 
     @FXML
-    private void onSaveAsFile(ActionEvent e) {
-        //Step 1: Get the selected tab
-        var tab = tabPane.getSelectionModel().getSelectedItem();
-        //Step 2: Get the controller from the UserData
-        var controller = (NotepadTabController) tab.getUserData();
-        //Step 3: Get the model from the controller
-        var model = controller.getModel();
+    private void onSaveAsFile(ActionEvent event) {
+        var selectedTab = tabPane.getSelectionModel().getSelectedItem();
 
-        //Step 4: Open up a prompt for choosing the file
+        if (selectedTab == null || selectedTab.getUserData() == null) {
+            return;
+        }
+
+        var tabViewModel = (NotepadTabViewModel) selectedTab.getUserData();
+
         var chooser = new FileChooser();
         var file = chooser.showSaveDialog(GlobalHandler.getStage());
-        if (file == null) return;
 
-        //Step 5: Set a path for the model's filepath and change the tab's file name
-        model.setFilePath(file.toPath());
-        model.setTitle(file.getName());
-        tab.setText(file.getName());
-        log.info("Saving File As : "+ file.getName());
-        //Step 6: Call to save the file
-        onSaveFile(e);
+        if (file == null) {
+            return;
+        }
+
+        tabViewModel.setFilePath(file.toPath());
+        onSaveFile(event);
     }
 
     private void createNewTab(Path filePath) {
         try {
-            //Step 1: Load the FXML
             var loader = new FXMLLoader(
                     getClass().getResource("/org/yashgamerx/notepad/view/notepad-tab-template.fxml")
             );
+
             var tab = (Tab) loader.load();
-            var controller =(NotepadTabController) loader.getController();
+            var controller = (NotepadTabController) loader.getController();
 
-            //Step 2: Create a Model and set its filePath
-            var model = new NotepadTabModel();
-            model.setFilePath(filePath);
+            var model = createTabModel(filePath);
+            var tabViewModel = new NotepadTabViewModel(model, fileService);
 
-            //Step 3: Set the tab name and model title name based on existence of filepath
-            if (filePath == null) {
-                model.setTitle("Untitled " + TabNumberHandler.postIncrement());
-            } else {
-                model.setTitle(filePath.getFileName().toString());
-            }
+            controller.bind(
+                    tabViewModel,
+                    viewModel.wordWrapProperty(),
+                    viewModel.fontProperty()
+            );
 
-            //Step 4: Set the tab's text, add model to controller and add controller to tab's UserData
-            tab.setText(model.getTitle());
-            controller.setModel(model);
-            tab.setUserData(controller);
-
-            //Step 5: The tab needs to be before the "+" tab and select the created tab
+            tab.setUserData(tabViewModel);
             tabPane.getTabs().add(tabPane.getTabs().size() - 1, tab);
             tabPane.getSelectionModel().select(tab);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            tabViewModel.load();
+        } catch (IOException exception) {
+            throw new RuntimeException("Unable to create tab.", exception);
         }
     }
 
+    private NotepadTabModel createTabModel(Path filePath) {
+        var model = new NotepadTabModel();
+        model.setFilePath(filePath);
+
+        if (filePath == null) {
+            model.setTitle("Untitled " + TabNumberHandler.postIncrement());
+        } else {
+            model.setTitle(filePath.getFileName().toString());
+        }
+
+        return model;
+    }
 
     @FXML
     private void addNewTab(Event event) {
-        //Step 1: If "+" tab is not selected, then don't perform the task
         var tab = (Tab) event.getSource();
-        if(!tab.isSelected()) return;
 
-        //Step 2: Create and load New Tab
+        if (!tab.isSelected()) {
+            return;
+        }
+
         createNewTab(null);
     }
 
     @FXML
-    private void onWordWrapClicked(ActionEvent actionEvent) {
-        //Step 1: Get the CheckMenuItem
-        var checkMenuItem = (CheckMenuItem) actionEvent.getSource();
-        //Step 2: Change the WordWrapHandlerProperty based on checkMenuItem's selection
-        GlobalHandler.getWordWrapBooleanProperty().set(checkMenuItem.isSelected());
-        //Step 3: Set the wordwrap property value
-        WordWrapSetting.set(checkMenuItem.isSelected());
-        //Step 4: save the settings
-        Settings.save();
+    private void onWordWrapClicked() {
+        viewModel.saveWordWrap();
     }
 
     @FXML
     private void onIncreaseFontSize() {
-        var font = GlobalHandler.getCurrentFont().get();
-        var size = font.getSize();
-        size++;
-        GlobalHandler.getCurrentFont().set(new Font(size));
-
-        FontSetting.set(size);
-        //Step 4: save the settings
-        Settings.save();
+        viewModel.increaseFontSize();
     }
 
     @FXML
     public void onDecreaseFontSize() {
-        var font = GlobalHandler.getCurrentFont().get();
-        var size = font.getSize();
-        size--;
-        GlobalHandler.getCurrentFont().set(new Font(size));
-
-        FontSetting.set(size);
-        //Step 4: save the settings
-        Settings.save();
+        viewModel.decreaseFontSize();
     }
 }
-

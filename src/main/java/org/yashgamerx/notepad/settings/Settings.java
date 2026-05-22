@@ -50,7 +50,7 @@ public class Settings {
     // ------------------------------------------------------------
     // Get / Set Properties
     // ------------------------------------------------------------
-    protected static void set(String key, String value) {
+    public static void set(String key, String value) {
         props.setProperty(key, value);
     }
 

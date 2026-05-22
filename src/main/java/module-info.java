@@ -5,10 +5,10 @@ module org.yashgamerx.notepad {
     requires javafx.graphics;
     requires javafx.base;
 
-    // Java Logging (optional for your app)
+    // Java Logging
     requires java.logging;
 
-    // Lombok only needed at compile time — static = OK
+    // Lombok
     requires static lombok;
 
     // Open all controller / FXML packages to FXMLLoader
@@ -16,10 +16,14 @@ module org.yashgamerx.notepad {
     opens org.yashgamerx.notepad.controller to javafx.fxml;
     opens org.yashgamerx.notepad.handler to javafx.fxml;
     opens org.yashgamerx.notepad.model to javafx.fxml;
+    opens org.yashgamerx.notepad.viewmodel to javafx.fxml;
+    opens org.yashgamerx.notepad.service to javafx.fxml;
 
     // Export API packages
     exports org.yashgamerx.notepad;
     exports org.yashgamerx.notepad.controller;
     exports org.yashgamerx.notepad.handler;
     exports org.yashgamerx.notepad.model;
+    exports org.yashgamerx.notepad.viewmodel;
+    exports org.yashgamerx.notepad.service;
 }
