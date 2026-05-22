@@ -9,40 +9,13 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 @Log
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Settings {
 
     private static final Properties props = new Properties();
-    private static final File SETTINGS_FILE = resolveSettingsFile();
+    private static final File SETTINGS_FILE = SettingsFileResolver.resolve();
 
     static {
         load();
-    }
-
-    // ------------------------------------------------------------
-    // Path Resolver (Windows / macOS / Linux)
-    // ------------------------------------------------------------
-    private static File resolveSettingsFile() {
-        String os = System.getProperty("os.name").toLowerCase();
-        String baseDir;
-
-        if (os.contains("win")) {
-            // Windows → %APPDATA%\NotepadApp
-            baseDir = System.getenv("APPDATA");
-        } else if (os.contains("mac")) {
-            // macOS → ~/Library/Application Support/NotepadApp
-            baseDir = System.getProperty("user.home") + "/Library/Application Support";
-        } else {
-            // Linux → ~/.config/notepad-app
-            baseDir = System.getProperty("user.home") + "/.config";
-        }
-
-        File dir = new File(baseDir, "NotepadApp");
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-
-        return new File(dir, "notepad-settings.properties");
     }
 
     // ------------------------------------------------------------
@@ -77,7 +50,7 @@ public class Settings {
     // ------------------------------------------------------------
     // Get / Set Properties
     // ------------------------------------------------------------
-    public static void set(String key, String value) {
+    protected static void set(String key, String value) {
         props.setProperty(key, value);
     }
 

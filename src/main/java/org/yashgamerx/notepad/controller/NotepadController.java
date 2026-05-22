@@ -14,7 +14,10 @@ import lombok.extern.java.Log;
 import org.yashgamerx.notepad.handler.GlobalHandler;
 import org.yashgamerx.notepad.handler.TabNumberHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
+import org.yashgamerx.notepad.settings.mode.FontSetting;
 import org.yashgamerx.notepad.settings.Settings;
+import org.yashgamerx.notepad.settings.mode.OpacitySetting;
+import org.yashgamerx.notepad.settings.mode.WordWrapSetting;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -55,7 +58,7 @@ public class NotepadController {
         // When slider changes → save value
         scaleSlider.valueProperty().addListener((_, _, newVal) -> {
             stage.setOpacity(newVal.doubleValue()/100.0);
-            Settings.set("opacity", String.valueOf(newVal.intValue()));
+            OpacitySetting.set(newVal);
             Settings.save();
         });
     }
@@ -172,7 +175,7 @@ public class NotepadController {
         //Step 2: Change the WordWrapHandlerProperty based on checkMenuItem's selection
         GlobalHandler.getWordWrapBooleanProperty().set(checkMenuItem.isSelected());
         //Step 3: Set the wordwrap property value
-        Settings.set("wordwrap", String.valueOf(checkMenuItem.isSelected()));
+        WordWrapSetting.set(checkMenuItem.isSelected());
         //Step 4: save the settings
         Settings.save();
     }
@@ -184,7 +187,7 @@ public class NotepadController {
         size++;
         GlobalHandler.getCurrentFont().set(new Font(size));
 
-        Settings.set("font.size", String.valueOf(size));
+        FontSetting.set(size);
         //Step 4: save the settings
         Settings.save();
     }
@@ -196,7 +199,7 @@ public class NotepadController {
         size--;
         GlobalHandler.getCurrentFont().set(new Font(size));
 
-        Settings.set("font.size", String.valueOf(size));
+        FontSetting.set(size);
         //Step 4: save the settings
         Settings.save();
     }
