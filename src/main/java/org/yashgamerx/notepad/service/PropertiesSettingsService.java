@@ -28,7 +28,7 @@ public class PropertiesSettingsService implements SettingsService{
     private void load() {
         try {
             if (!settingsFile.exists()) {
-                settingsFile.createNewFile();
+                var _ = settingsFile.createNewFile();
                 return;
             }
             try (FileInputStream fis = new FileInputStream(settingsFile)) {
