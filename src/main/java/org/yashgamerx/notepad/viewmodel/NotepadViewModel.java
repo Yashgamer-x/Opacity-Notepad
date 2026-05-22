@@ -44,7 +44,7 @@ public class NotepadViewModel {
     /// Persists the current wordwrap value.
     ///
     /// The value is either `true` or `false`.
-    public void saveWordWrap() {
+    public void saveWordWrapSetting() {
         settingsService.set("wordwrap", String.valueOf(wordWrap.get()));
         settingsService.save();
     }

@@ -3,7 +3,6 @@ package org.yashgamerx.notepad.view;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
@@ -30,6 +29,7 @@ public class NotepadView {
     private final SettingsService settingsService = new PropertiesSettingsService();
     private final NotepadViewModel viewModel = new NotepadViewModel(settingsService);
 
+    // FXML Elements
     @FXML
     private TabPane tabPane;
     @FXML
@@ -46,10 +46,13 @@ public class NotepadView {
         scaleSlider.valueProperty().bindBidirectional(viewModel.opacityProperty());
         wordWrapCheckMenuItem.selectedProperty().bindBidirectional(viewModel.wordWrapProperty());
 
-        stage.opacityProperty().bind(viewModel.opacityProperty().divide(100.0));
+        var opacityBinding = viewModel.opacityProperty().divide(100.0);
+        stage.opacityProperty().bind(opacityBinding);
 
-        viewModel.opacityProperty().addListener((_, _, _) -> viewModel.saveOpacity());
-        viewModel.wordWrapProperty().addListener((_, _, _) -> viewModel.saveWordWrap());
+        viewModel.opacityProperty()
+                .addListener((_, _, _) -> viewModel.saveOpacity());
+        viewModel.wordWrapProperty()
+                .addListener((_, _, _) -> viewModel.saveWordWrapSetting());
     }
 
     @FXML
@@ -57,9 +60,7 @@ public class NotepadView {
         var chooser = new FileChooser();
         var file = chooser.showOpenDialog(GlobalHandler.getStage());
 
-        if (file == null) {
-            return;
-        }
+        if (file == null) return;
 
         createNewTab(file.toPath());
     }
@@ -86,6 +87,7 @@ public class NotepadView {
         }
     }
 
+    /// Saves the file when the save action is invoked.
     @FXML
     private void onSaveAsFile(ActionEvent event) {
         var selectedTab = tabPane.getSelectionModel().getSelectedItem();
@@ -99,42 +101,42 @@ public class NotepadView {
         var chooser = new FileChooser();
         var file = chooser.showSaveDialog(GlobalHandler.getStage());
 
-        if (file == null) {
-            return;
-        }
+        if (file == null) return;
 
         tabViewModel.setFilePath(file.toPath());
         onSaveFile(event);
     }
 
+    /// Creates a Tab: [NotepadTabView].
     private void createNewTab(Path filePath) {
         try {
-            var loader = new FXMLLoader(
-                    getClass().getResource("/org/yashgamerx/notepad/view/notepad-tab-template.fxml")
-            );
-
-            var tab = (Tab) loader.load();
-            var controller = (NotepadTabView) loader.getController();
+            var tabView = new NotepadTabView();
 
             var model = createTabModel(filePath);
             var tabViewModel = new NotepadTabViewModel(model, fileService);
 
-            controller.bind(
+            tabView.bind(
                     tabViewModel,
                     viewModel.wordWrapProperty(),
                     viewModel.fontProperty()
             );
 
-            tab.setUserData(tabViewModel);
-            tabPane.getTabs().add(tabPane.getTabs().size() - 1, tab);
-            tabPane.getSelectionModel().select(tab);
+            tabView.setUserData(tabViewModel);
+            tabPane.getTabs().add(tabPane.getTabs().size() - 1, tabView);
+            tabPane.getSelectionModel().select(tabView);
 
             tabViewModel.load();
         } catch (IOException exception) {
-            throw new RuntimeException("Unable to create tab.", exception);
+            log.severe("Failed to create new tab.");
         }
     }
 
+    /// Creates [NotepadTabModel] with the given [Path].
+    ///
+    /// Title of the tab is set to the filename of the file if the [Path] is not null.
+    /// Otherwise, the title is set to "Untitled" followed by the number of tabs.
+    ///
+    /// @param filePath An absolute filepath of the file in the system.
     private NotepadTabModel createTabModel(Path filePath) {
         var model = new NotepadTabModel();
         model.setFilePath(filePath);
@@ -148,6 +150,7 @@ public class NotepadView {
         return model;
     }
 
+    /// Adds a new Untitled Tab.
     @FXML
     private void addNewTab(Event event) {
         var tab = (Tab) event.getSource();
@@ -159,18 +162,15 @@ public class NotepadView {
         createNewTab(null);
     }
 
-    @FXML
-    private void onWordWrapClicked() {
-        viewModel.saveWordWrap();
-    }
-
+    /// Increases the font size
     @FXML
     private void onIncreaseFontSize() {
         viewModel.increaseFontSize();
     }
 
+    /// Decreases the font size
     @FXML
-    public void onDecreaseFontSize() {
+    private void onDecreaseFontSize() {
         viewModel.decreaseFontSize();
     }
 }
