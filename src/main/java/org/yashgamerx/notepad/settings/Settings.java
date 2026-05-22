@@ -1,9 +1,6 @@
 package org.yashgamerx.notepad.settings;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
-
 import java.io.*;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -18,9 +15,7 @@ public class Settings {
         load();
     }
 
-    // ------------------------------------------------------------
-    // Load Settings
-    // ------------------------------------------------------------
+    /// Loads preference file contents in [Settings#props]
     private static void load() {
         try {
             if (!SETTINGS_FILE.exists()) {
@@ -36,9 +31,7 @@ public class Settings {
         }
     }
 
-    // ------------------------------------------------------------
-    // Save Settings
-    // ------------------------------------------------------------
+    /// Saves the contents of [Settings#props] to the preference file
     public static void save() {
         try (FileOutputStream fos = new FileOutputStream(SETTINGS_FILE)) {
             props.store(fos, "Notepad Settings");
