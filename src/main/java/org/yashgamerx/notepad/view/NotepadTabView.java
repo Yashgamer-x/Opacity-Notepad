@@ -1,4 +1,4 @@
-package org.yashgamerx.notepad.controller;
+package org.yashgamerx.notepad.view;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -12,7 +12,7 @@ import lombok.Getter;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 
 @Getter
-public class NotepadTabController {
+public class NotepadTabView {
 
     private static final double BASE_FONT_SIZE = 12.0;
 

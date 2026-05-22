@@ -13,7 +13,7 @@
 <Tab text="Untitled Tab 1"
      xmlns="http://javafx.com/javafx"
      xmlns:fx="http://javafx.com/fxml"
-     fx:controller="org.yashgamerx.notepad.controller.NotepadTabController"
+     fx:controller="org.yashgamerx.notepad.view.NotepadTabView"
      fx:id="tab">
     <AnchorPane prefHeight="180.0" prefWidth="200.0">
         <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

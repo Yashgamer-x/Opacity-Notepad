@@ -1,4 +1,4 @@
-package org.yashgamerx.notepad.controller;
+package org.yashgamerx.notepad.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -25,7 +25,7 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 
 @Log
-public class NotepadController {
+public class NotepadView {
     private final FileService fileService = new NotepadFileService();
     private final SettingsService settingsService = new PropertiesSettingsService();
     private final NotepadViewModel viewModel = new NotepadViewModel(settingsService);
@@ -114,7 +114,7 @@ public class NotepadController {
             );
 
             var tab = (Tab) loader.load();
-            var controller = (NotepadTabController) loader.getController();
+            var controller = (NotepadTabView) loader.getController();
 
             var model = createTabModel(filePath);
             var tabViewModel = new NotepadTabViewModel(model, fileService);

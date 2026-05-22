@@ -13,7 +13,7 @@ module org.yashgamerx.notepad {
 
     // Open all controller / FXML packages to FXMLLoader
     opens org.yashgamerx.notepad to javafx.fxml;
-    opens org.yashgamerx.notepad.controller to javafx.fxml;
+    opens org.yashgamerx.notepad.view to javafx.fxml;
     opens org.yashgamerx.notepad.handler to javafx.fxml;
     opens org.yashgamerx.notepad.model to javafx.fxml;
     opens org.yashgamerx.notepad.viewmodel to javafx.fxml;
@@ -21,7 +21,7 @@ module org.yashgamerx.notepad {
 
     // Export API packages
     exports org.yashgamerx.notepad;
-    exports org.yashgamerx.notepad.controller;
+    exports org.yashgamerx.notepad.view;
     exports org.yashgamerx.notepad.handler;
     exports org.yashgamerx.notepad.model;
     exports org.yashgamerx.notepad.viewmodel;

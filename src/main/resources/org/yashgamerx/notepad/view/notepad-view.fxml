@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="500.0" stylesheets="@notepad-tab-template.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.yashgamerx.notepad.controller.NotepadController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="500.0" stylesheets="@notepad-tab-template.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.yashgamerx.notepad.view.NotepadView">
 
     <MenuBar>
         <Menu mnemonicParsing="false" text="File">
