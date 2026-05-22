@@ -26,4 +26,5 @@ module org.yashgamerx.notepad {
     exports org.yashgamerx.notepad.model;
     exports org.yashgamerx.notepad.viewmodel;
     exports org.yashgamerx.notepad.service;
+    exports org.yashgamerx.notepad.settings;
 }

@@ -16,6 +16,8 @@ import org.yashgamerx.notepad.service.FileService;
 import org.yashgamerx.notepad.service.NotepadFileService;
 import org.yashgamerx.notepad.service.PropertiesSettingsService;
 import org.yashgamerx.notepad.service.SettingsService;
+import org.yashgamerx.notepad.settings.OsDependentPathResolver;
+import org.yashgamerx.notepad.settings.SettingsPathResolver;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
 
@@ -26,7 +28,8 @@ import java.util.logging.Level;
 @Log
 public class NotepadView {
     private final FileService fileService = new NotepadFileService();
-    private final SettingsService settingsService = new PropertiesSettingsService();
+    private final SettingsPathResolver settingsPathResolver = new OsDependentPathResolver();
+    private final SettingsService settingsService = new PropertiesSettingsService(settingsPathResolver);
     private final NotepadViewModel viewModel = new NotepadViewModel(settingsService);
 
     // FXML Elements
