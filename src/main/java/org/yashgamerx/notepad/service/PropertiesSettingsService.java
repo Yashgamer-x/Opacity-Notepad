@@ -22,6 +22,9 @@ public class PropertiesSettingsService implements SettingsService{
         load();
     }
 
+    /// Loads the properties from [PropertiesSettingsService#settingsFile] into [PropertiesSettingsService#properties]
+    ///
+    /// Notifies the developer with the error, if any sort of exception was thrown.
     private void load() {
         try {
             if (!settingsFile.exists()) {
@@ -36,16 +39,24 @@ public class PropertiesSettingsService implements SettingsService{
         }
     }
 
+    /// Retrieves the value based on the key provided.
+    ///
+    /// If the key exists: Then the value is returned. <br>
+    /// Else: the defaultValue is returned.
+    ///
+    /// @return a key mapped value or the defaultValue
     @Override
     public String get(String key, String defaultValue) {
         return properties.getProperty(key, defaultValue);
     }
 
+    /// Sets the value for the key provided.
     @Override
     public void set(String key, String value) {
         properties.setProperty(key, value);
     }
 
+    /// Persists the [PropertiesSettingsService#properties] into [PropertiesSettingsService#settingsFile].
     @Override
     public void save() {
         try (FileOutputStream fos = new FileOutputStream(settingsFile)) {
