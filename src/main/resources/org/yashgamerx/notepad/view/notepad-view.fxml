@@ -33,7 +33,7 @@
                 </CustomMenuItem>
             </Menu>
          <SeparatorMenuItem mnemonicParsing="false" />
-            <CheckMenuItem fx:id="wordWrapCheckMenuItem" mnemonicParsing="false" onAction="#onWordWrapClicked" text="Word wrap" />
+            <CheckMenuItem fx:id="wordWrapCheckMenuItem" mnemonicParsing="false" text="Word wrap" />
             <Menu mnemonicParsing="false" text="Font">
                 <MenuItem accelerator="Ctrl+Shift+Equals" mnemonicParsing="false" onAction="#onIncreaseFontSize" text="Increase Size" />
                 <MenuItem accelerator="Ctrl+Minus" mnemonicParsing="false" onAction="#onDecreaseFontSize" text="Decrease Size" />

@@ -13,23 +13,29 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class NotepadTabViewModel {
+    // Dependencies
     private final NotepadTabModel model;
     private final FileService fileService;
 
+    // Properties
     private final StringProperty content = new SimpleStringProperty("");
     private final StringProperty title = new SimpleStringProperty("");
     private final BooleanProperty modified = new SimpleBooleanProperty(false);
 
+    // Constructor
     public NotepadTabViewModel(NotepadTabModel model, FileService fileService) {
+        // Dependencies
         this.model = model;
         this.fileService = fileService;
 
+        // Properties
         this.title.set(model.getTitle());
-        this.modified.set(model.isModified());
 
+        // Bindings
         this.content.addListener((_,_,_)-> setModified(true));
     }
 
+    /// Loads the contents of the file and writes it into [NotepadTabViewModel#content].
     public void load() throws IOException {
         Path filePath = model.getFilePath();
 
@@ -42,6 +48,9 @@ public class NotepadTabViewModel {
         setModified(false);
     }
 
+    /// Writes the contents of [NotepadTabViewModel#content] into the file by invoking [FileService#write(Path, String)]
+    ///
+    /// @throws IllegalStateException Occurs when the filePath is null.
     public void save() throws IOException {
         Path filePath = model.getFilePath();
 
@@ -54,6 +63,7 @@ public class NotepadTabViewModel {
     }
 
 
+    /// Set the filePath location and sets the title with the provided filename in the [Path].
     public void setFilePath(Path filePath) {
         model.setFilePath(filePath);
 
@@ -78,6 +88,7 @@ public class NotepadTabViewModel {
         return modified;
     }
 
+    /// Displays if title is appended with astrix if the contents are modified.
     public StringBinding displayTitleBinding() {
         return Bindings.createStringBinding(
                 () -> modified.get() ? title.get() + "*" : title.get(),
@@ -86,20 +97,18 @@ public class NotepadTabViewModel {
         );
     }
 
+    /// Binding for number of lines
     public StringBinding lineCountBinding() {
         return Bindings.createStringBinding(
                 () -> {
                     String value = content.get();
-                    if (value == null || value.isEmpty()) {
-                        return "1 Ln";
-                    }
-
-                    return value.split("\\R", -1).length + " Ln";
+                    return value.lines().count() + " Ln";
                 },
                 content
         );
     }
 
+    /// Creates a String binding that displays the number of characters.
     public StringBinding characterCountBinding() {
         return Bindings.createStringBinding(
                 () -> content.get().length() + " Characters",
@@ -107,13 +116,14 @@ public class NotepadTabViewModel {
         );
     }
 
+    /// Sets the title of the tab
     public void setTitle(String title) {
         model.setTitle(title);
         this.title.set(title);
     }
 
+    /// Sets the modified value
     public void setModified(boolean modified) {
-        model.setModified(modified);
         this.modified.set(modified);
     }
 }
