@@ -10,11 +10,11 @@
 
 
 <?import javafx.geometry.Insets?>
-<Tab text="Untitled Tab 1"
-     xmlns="http://javafx.com/javafx"
-     xmlns:fx="http://javafx.com/fxml"
-     fx:controller="org.yashgamerx.notepad.view.NotepadTabView"
-     fx:id="tab">
+<fx:root type="Tab"
+         text="Untitled Tab 1"
+         xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:id="tab">
     <AnchorPane prefHeight="180.0" prefWidth="200.0">
         <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <TextArea fx:id="textArea" promptText="Type the text here" VBox.vgrow="ALWAYS" />
@@ -41,4 +41,4 @@
             </HBox>
         </VBox>
     </AnchorPane>
-</Tab>
+</fx:root>
