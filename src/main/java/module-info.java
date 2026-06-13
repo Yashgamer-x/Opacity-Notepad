@@ -11,7 +11,7 @@ module org.yashgamerx.notepad {
     // Lombok
     requires static lombok;
 
-    // Open all controller / FXML packages to FXMLLoader
+    // Open all packages to FXMLLoader
     opens org.yashgamerx.notepad to javafx.fxml;
     opens org.yashgamerx.notepad.view to javafx.fxml;
     opens org.yashgamerx.notepad.handler to javafx.fxml;

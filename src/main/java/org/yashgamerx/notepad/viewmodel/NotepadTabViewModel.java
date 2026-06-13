@@ -12,7 +12,18 @@ import org.yashgamerx.notepad.service.FileService;
 import java.io.IOException;
 import java.nio.file.Path;
 
+/**
+ * ViewModel for a single notepad tab.
+ *
+ * <h3>Bug fix: modified flag on initial load</h3>
+ * The previous implementation attached the content listener in the constructor,
+ * which caused {@code modified} to be set {@code true} during {@link #load()}
+ * before the trailing {@code setModified(false)} could reset it.  The listener
+ * is now added <em>after</em> the initial load so the flag stays {@code false}
+ * for a freshly loaded file.
+ */
 public class NotepadTabViewModel {
+
     // Dependencies
     private final NotepadTabModel model;
     private final FileService fileService;
@@ -22,35 +33,45 @@ public class NotepadTabViewModel {
     private final StringProperty title = new SimpleStringProperty("");
     private final BooleanProperty modified = new SimpleBooleanProperty(false);
 
-    // Constructor
     public NotepadTabViewModel(NotepadTabModel model, FileService fileService) {
-        // Dependencies
         this.model = model;
         this.fileService = fileService;
-
-        // Properties
         this.title.set(model.getTitle());
-
-        // Bindings
-        this.content.addListener((_,_,_)-> setModified(true));
+        // NOTE: the content listener is intentionally NOT attached here.
+        // It is attached in load() after the initial content is set so that
+        // loading a file does not immediately mark the tab as modified.
     }
 
-    /// Loads the contents of the file and writes it into [NotepadTabViewModel#content].
+    /**
+     * Reads the file at the model's path into the content property.
+     *
+     * <p>After content is populated the modified flag is cleared to {@code false},
+     * and only <em>then</em> the change listener is installed so that subsequent
+     * edits by the user correctly flip the flag.</p>
+     */
     public void load() throws IOException {
         Path filePath = model.getFilePath();
 
         if (filePath == null) {
             content.set("");
-            return;
+        } else {
+            content.set(fileService.read(filePath));
         }
 
-        content.set(fileService.read(filePath));
-        setModified(false);
+        // Reset flag before attaching the listener so loading does not
+        // incorrectly mark the tab as modified.
+        modified.set(false);
+
+        // Attach the listener now: every subsequent change by the user marks
+        // the tab as modified.
+        content.addListener((_, _, _) -> modified.set(true));
     }
 
-    /// Writes the contents of [NotepadTabViewModel#content] into the file by invoking [FileService#write(Path, String)]
-    ///
-    /// @throws IllegalStateException Occurs when the filePath is null.
+    /**
+     * Writes the current content to the file.
+     *
+     * @throws IllegalStateException if no file path has been set.
+     */
     public void save() throws IOException {
         Path filePath = model.getFilePath();
 
@@ -59,11 +80,12 @@ public class NotepadTabViewModel {
         }
 
         fileService.write(filePath, content.get());
-        setModified(false);
+        modified.set(false);
     }
 
-
-    /// Set the filePath location and sets the title with the provided filename in the [Path].
+    /**
+     * Updates the file path and derives the tab title from the filename.
+     */
     public void setFilePath(Path filePath) {
         model.setFilePath(filePath);
 
@@ -88,7 +110,7 @@ public class NotepadTabViewModel {
         return modified;
     }
 
-    /// Displays if title is appended with astrix if the contents are modified.
+    /** Returns a binding that appends {@code *} to the title when the tab is modified. */
     public StringBinding displayTitleBinding() {
         return Bindings.createStringBinding(
                 () -> modified.get() ? title.get() + "*" : title.get(),
@@ -97,18 +119,15 @@ public class NotepadTabViewModel {
         );
     }
 
-    /// Binding for number of lines
+    /** Returns a binding that shows the number of lines in the content. */
     public StringBinding lineCountBinding() {
         return Bindings.createStringBinding(
-                () -> {
-                    String value = content.get();
-                    return value.lines().count() + " Ln";
-                },
+                () -> content.get().lines().count() + " Ln",
                 content
         );
     }
 
-    /// Creates a String binding that displays the number of characters.
+    /** Returns a binding that shows the character count of the content. */
     public StringBinding characterCountBinding() {
         return Bindings.createStringBinding(
                 () -> content.get().length() + " Characters",
@@ -116,14 +135,8 @@ public class NotepadTabViewModel {
         );
     }
 
-    /// Sets the title of the tab
     public void setTitle(String title) {
         model.setTitle(title);
         this.title.set(title);
-    }
-
-    /// Sets the modified value
-    public void setModified(boolean modified) {
-        this.modified.set(modified);
     }
 }

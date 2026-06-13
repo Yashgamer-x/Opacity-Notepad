@@ -1,16 +1,20 @@
 package org.yashgamerx.notepad.handler;
 
-
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+/**
+ * Generates monotonically increasing tab numbers.
+ *
+ * <p>Instantiated once and injected wherever tab numbering is needed,
+ * making it testable and avoiding global mutable static state.</p>
+ */
 public class TabNumberHandler {
-    @Getter
-    private static int tabNumber = 1;
 
-    public static int postIncrement(){
+    private int tabNumber = 1;
+
+    public int postIncrement() {
         return tabNumber++;
+    }
+
+    public int current() {
+        return tabNumber;
     }
 }
