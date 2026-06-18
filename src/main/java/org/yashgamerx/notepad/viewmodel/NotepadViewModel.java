@@ -2,6 +2,7 @@ package org.yashgamerx.notepad.viewmodel;
 
 import javafx.beans.property.*;
 import javafx.scene.text.Font;
+import lombok.extern.java.Log;
 import org.yashgamerx.notepad.service.SettingsService;
 
 import java.util.logging.Level;
@@ -22,9 +23,8 @@ import java.util.logging.Logger;
  *       {@code NotepadTabView} via {@link #getDefaultFontSize()}.</li>
  * </ul>
  */
+@Log
 public class NotepadViewModel {
-
-    private static final Logger log = Logger.getLogger(NotepadViewModel.class.getName());
 
     // Single source of truth for the default font size.
     // NotepadTabView reads this constant instead of duplicating the value.
@@ -45,12 +45,6 @@ public class NotepadViewModel {
 
     public NotepadViewModel(SettingsService settingsService) {
         this.settingsService = settingsService;
-
-        // Auto-persist whenever a property changes, so callers never have to
-        // remember to call a separate save method.
-        opacity.addListener((_, _, _) -> saveDouble(KEY_OPACITY, opacity.get()));
-        wordWrap.addListener((_, _, _) -> saveBoolean(KEY_WORD_WRAP, wordWrap.get()));
-        font.addListener((_, _, _) -> saveDouble(KEY_FONT_SIZE, font.get().getSize()));
     }
 
     /**

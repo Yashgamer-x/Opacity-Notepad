@@ -18,7 +18,7 @@
         <javafx.version>25.0.1</javafx.version>
         <junit.version>5.12.1</junit.version>
         <lombok.version>1.18.38</lombok.version>
-        <pf4j.version>3.14.0</pf4j.version>
+        <spring.version>7.0.8</spring.version>
     </properties>
 
     <!-- Dependencies -->
@@ -57,10 +57,11 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/org.springframework/spring-context -->
         <dependency>
-            <groupId>org.pf4j</groupId>
-            <artifactId>pf4j</artifactId>
-            <version>${pf4j.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
         </dependency>
     </dependencies>
 

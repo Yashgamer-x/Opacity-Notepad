@@ -11,20 +11,35 @@ module org.yashgamerx.notepad {
     // Lombok
     requires static lombok;
 
-    // Open all packages to FXMLLoader
+    // Spring modules
+    requires spring.context;
+    requires spring.beans;
+    requires spring.core;
+
+    // --- OPENS FOR REFLECTION ---
+
+    // Open packages to FXMLLoader for JavaFX UI binding
     opens org.yashgamerx.notepad to javafx.fxml;
-    opens org.yashgamerx.notepad.view to javafx.fxml;
-    opens org.yashgamerx.notepad.handler to javafx.fxml;
-    opens org.yashgamerx.notepad.model to javafx.fxml;
-    opens org.yashgamerx.notepad.viewmodel to javafx.fxml;
-    opens org.yashgamerx.notepad.service to javafx.fxml;
+    opens org.yashgamerx.notepad.view to javafx.fxml, javafx.graphics;
+
+    // Open packages to Spring for dependency injection & bean creation
+    opens org.yashgamerx.notepad.factory to spring.beans, spring.core, spring.context;
+    opens org.yashgamerx.notepad.handler to spring.beans, spring.core, spring.context, javafx.fxml;
+    opens org.yashgamerx.notepad.service to spring.beans, spring.core, spring.context, javafx.fxml;
+    opens org.yashgamerx.notepad.viewmodel to spring.beans, spring.core, spring.context, javafx.fxml;
+    opens org.yashgamerx.notepad.model to spring.beans, spring.core, spring.context, javafx.fxml;
+    opens org.yashgamerx.notepad.configuration to spring.beans, spring.core, spring.context;
+
+    // --- EXPORTS ---
 
     // Export API packages
     exports org.yashgamerx.notepad;
+    exports org.yashgamerx.notepad.factory;
     exports org.yashgamerx.notepad.view;
     exports org.yashgamerx.notepad.handler;
     exports org.yashgamerx.notepad.model;
     exports org.yashgamerx.notepad.viewmodel;
     exports org.yashgamerx.notepad.service;
     exports org.yashgamerx.notepad.settings;
+    exports org.yashgamerx.notepad.configuration;
 }

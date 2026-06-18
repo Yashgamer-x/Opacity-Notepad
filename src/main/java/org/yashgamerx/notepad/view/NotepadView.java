@@ -7,6 +7,7 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.java.Log;
@@ -45,7 +46,7 @@ import java.util.logging.Level;
  * </ul>
  */
 @Log
-public class NotepadView {
+public class NotepadView extends VBox {
 
     // Dependencies — constructed here because JavaFX creates this class via FXMLLoader.
     // If a DI framework (e.g. Spring, Guice) is introduced later, replace these
@@ -67,6 +68,28 @@ public class NotepadView {
     @FXML
     private CheckMenuItem wordWrapCheckMenuItem;
 
+    public NotepadView() {
+        loadFXML();
+    }
+
+    private void loadFXML() {
+        var loader = new javafx.fxml.FXMLLoader(getClass().getResource("/org/yashgamerx/notepad/view/notepad-view.fxml"));
+        loader.setRoot(this);
+        loader.setController(this);
+        try {
+            loader.load();
+        } catch (IOException e) {
+            log.severe("Failed to load notepad-template.fxml");
+        }
+    }
+
+    @FXML
+    private void initialize() {
+        viewModel.loadSettings();
+        // Stage-dependent bindings are deferred to initStage() which is called
+        // after the Stage is available.
+    }
+
     /**
      * Called by {@link org.yashgamerx.notepad.NotepadApplication} immediately
      * after FXMLLoader finishes so the view has a reference to the primary stage
@@ -79,13 +102,6 @@ public class NotepadView {
         wordWrapCheckMenuItem.selectedProperty().bindBidirectional(viewModel.wordWrapProperty());
 
         stage.opacityProperty().bind(viewModel.opacityProperty().divide(100.0));
-    }
-
-    @FXML
-    private void initialize() {
-        viewModel.loadSettings();
-        // Stage-dependent bindings are deferred to initStage() which is called
-        // after the Stage is available.
     }
 
     @FXML

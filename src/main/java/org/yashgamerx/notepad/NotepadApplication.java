@@ -5,6 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.yashgamerx.notepad.view.NotepadView;
 
 import java.io.IOException;
@@ -23,15 +27,11 @@ public class NotepadApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        var fxmlLoader = new FXMLLoader(
-                getClass().getResource("/org/yashgamerx/notepad/view/notepad-view.fxml")
-        );
+        var notepadView = new NotepadView();
 
-        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+        Scene scene = new Scene(notepadView, 500, 500);
 
-        // Inject the stage into the controller now that it exists.
-        NotepadView controller = fxmlLoader.getController();
-        controller.initStage(stage);
+        notepadView.initStage(stage);
 
         stage.setTitle("Opacity Notepad");
 
