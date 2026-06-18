@@ -1,16 +1,12 @@
 package org.yashgamerx.notepad;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.yashgamerx.notepad.view.NotepadView;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -25,12 +21,20 @@ import java.util.Objects;
  */
 public class NotepadApplication extends Application {
 
+    private ApplicationContext springContext;
+
+    @Override
+    public void init() throws Exception {
+        // Initialize the IoC container right before the UI starts
+        this.springContext = new AnnotationConfigApplicationContext(Launcher.class);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
+        // Retrieve the Spring-managed bean instead of calling 'new'
         var notepadView = new NotepadView();
 
         Scene scene = new Scene(notepadView, 500, 500);
-
         notepadView.initStage(stage);
 
         stage.setTitle("Opacity Notepad");

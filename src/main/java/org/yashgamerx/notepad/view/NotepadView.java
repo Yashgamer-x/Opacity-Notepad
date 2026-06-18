@@ -51,11 +51,9 @@ public class NotepadView extends VBox {
     // Dependencies — constructed here because JavaFX creates this class via FXMLLoader.
     // If a DI framework (e.g. Spring, Guice) is introduced later, replace these
     // field initialisers with constructor injection.
-    private final FileService fileService = new NotepadFileService();
-    private final SettingsPathResolver settingsPathResolver = new OsDependentPathResolver();
-    private final SettingsService settingsService = new PropertiesSettingsService(settingsPathResolver);
-    private final NotepadViewModel viewModel = new NotepadViewModel(settingsService);
-    private final TabNumberHandler tabNumberHandler = new TabNumberHandler();
+    private final FileService fileService;
+    private final NotepadViewModel viewModel;
+    private final TabNumberHandler tabNumberHandler;
 
     // Stage is injected after FXMLLoader construction via initStage().
     private Stage stage;
@@ -68,8 +66,12 @@ public class NotepadView extends VBox {
     @FXML
     private CheckMenuItem wordWrapCheckMenuItem;
 
-    public NotepadView() {
+    public NotepadView(FileService fileService, NotepadViewModel viewModel, TabNumberHandler tabNumberHandler) {
         loadFXML();
+
+        this.fileService = fileService;
+        this.viewModel = viewModel;
+        this.tabNumberHandler = tabNumberHandler;
     }
 
     private void loadFXML() {
