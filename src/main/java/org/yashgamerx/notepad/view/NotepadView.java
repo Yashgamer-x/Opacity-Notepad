@@ -3,6 +3,7 @@ package org.yashgamerx.notepad.view;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
@@ -11,14 +12,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.java.Log;
+import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.handler.TabNumberHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
 import org.yashgamerx.notepad.service.FileService;
-import org.yashgamerx.notepad.service.NotepadFileService;
-import org.yashgamerx.notepad.service.PropertiesSettingsService;
-import org.yashgamerx.notepad.service.SettingsService;
-import org.yashgamerx.notepad.settings.OsDependentPathResolver;
-import org.yashgamerx.notepad.settings.SettingsPathResolver;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
 
@@ -46,6 +43,7 @@ import java.util.logging.Level;
  * </ul>
  */
 @Log
+@Component
 public class NotepadView extends VBox {
 
     // Dependencies — constructed here because JavaFX creates this class via FXMLLoader.
@@ -67,15 +65,14 @@ public class NotepadView extends VBox {
     private CheckMenuItem wordWrapCheckMenuItem;
 
     public NotepadView(FileService fileService, NotepadViewModel viewModel, TabNumberHandler tabNumberHandler) {
-        loadFXML();
-
         this.fileService = fileService;
         this.viewModel = viewModel;
         this.tabNumberHandler = tabNumberHandler;
+        loadFXML();
     }
 
     private void loadFXML() {
-        var loader = new javafx.fxml.FXMLLoader(getClass().getResource("/org/yashgamerx/notepad/view/notepad-view.fxml"));
+        var loader = new FXMLLoader(getClass().getResource("/org/yashgamerx/notepad/view/notepad-view.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {

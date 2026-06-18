@@ -32,7 +32,7 @@ public class NotepadApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Retrieve the Spring-managed bean instead of calling 'new'
-        var notepadView = new NotepadView();
+        var notepadView = springContext.getBean(NotepadView.class);
 
         Scene scene = new Scene(notepadView, 500, 500);
         notepadView.initStage(stage);
