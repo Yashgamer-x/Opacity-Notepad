@@ -75,6 +75,7 @@ public class NotepadView extends VBox {
         this.viewModel = viewModel;
         this.tabNumberHandler = tabNumberHandler;
         this.tabGenerator = tabGenerator;
+        this.fileOpenable = fileOpenable;
 
         loadFXML();
     }
