@@ -51,7 +51,7 @@ public class NotepadViewModel {
      * prevent the other settings from loading.
      */
     public void loadSettings() {
-        opacity.set (parseDouble (settingsService.get(KEY_OPACITY,   null), DEFAULT_OPACITY));
+        opacity.set(parseDouble (settingsService.get(KEY_OPACITY,   null), DEFAULT_OPACITY));
         wordWrap.set(parseBoolean(settingsService.get(KEY_WORD_WRAP, null), false));
         font.set(new Font(parseDouble(settingsService.get(KEY_FONT_SIZE, null), DEFAULT_FONT_SIZE)));
     }
