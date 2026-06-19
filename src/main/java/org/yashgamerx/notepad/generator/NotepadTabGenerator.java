@@ -1,8 +1,5 @@
 package org.yashgamerx.notepad.generator;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.scene.text.Font;
 import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.handler.TabNumberHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
@@ -10,9 +7,7 @@ import org.yashgamerx.notepad.model.TabContext;
 import org.yashgamerx.notepad.service.FileService;
 import org.yashgamerx.notepad.view.NotepadTabView;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
-
 import java.io.IOException;
-import java.nio.file.Path;
 
 @Component
 public class NotepadTabGenerator implements TabGenerator {
