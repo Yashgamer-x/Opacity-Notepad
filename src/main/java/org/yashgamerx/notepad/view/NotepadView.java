@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.generator.TabGenerator;
 import org.yashgamerx.notepad.handler.TabNumberHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
+import org.yashgamerx.notepad.service.file.FileOpenable;
 import org.yashgamerx.notepad.service.file.FileService;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
@@ -54,6 +55,7 @@ public class NotepadView extends VBox {
     private final NotepadViewModel viewModel;
     private final TabNumberHandler tabNumberHandler;
     private final TabGenerator tabGenerator;
+    private final FileOpenable fileOpenable;
 
     // Stage is injected after FXMLLoader construction via initStage().
     private Stage stage;
@@ -67,7 +69,8 @@ public class NotepadView extends VBox {
     private CheckMenuItem wordWrapCheckMenuItem;
 
     public NotepadView(FileService fileService, NotepadViewModel viewModel,
-                       TabNumberHandler tabNumberHandler, TabGenerator tabGenerator) {
+                       TabNumberHandler tabNumberHandler, TabGenerator tabGenerator,
+                       FileOpenable fileOpenable) {
         this.fileService = fileService;
         this.viewModel = viewModel;
         this.tabNumberHandler = tabNumberHandler;
@@ -110,11 +113,7 @@ public class NotepadView extends VBox {
 
     @FXML
     private void onOpenFile() {
-        var chooser = new FileChooser();
-        var file = chooser.showOpenDialog(stage);
-
-        if (file == null) return;
-
+        var file = fileOpenable.open(stage);
         createNewTab(file.toPath());
     }
 
