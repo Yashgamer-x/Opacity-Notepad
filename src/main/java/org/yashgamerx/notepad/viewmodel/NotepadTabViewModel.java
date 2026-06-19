@@ -2,7 +2,10 @@ package org.yashgamerx.notepad.viewmodel;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.yashgamerx.notepad.model.NotepadTabModel;
 import org.yashgamerx.notepad.service.file.FileService;
 import org.yashgamerx.notepad.service.find.TextFinder;

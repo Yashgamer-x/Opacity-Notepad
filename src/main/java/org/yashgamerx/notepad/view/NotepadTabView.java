@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import lombok.Getter;
 import lombok.extern.java.Log;
-import org.yashgamerx.notepad.view.find.FindBarView;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
 
