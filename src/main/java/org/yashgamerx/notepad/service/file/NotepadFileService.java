@@ -1,4 +1,4 @@
-package org.yashgamerx.notepad.service;
+package org.yashgamerx.notepad.service.file;
 
 import org.springframework.stereotype.Component;
 

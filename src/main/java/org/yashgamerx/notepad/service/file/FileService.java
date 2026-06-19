@@ -1,4 +1,4 @@
-package org.yashgamerx.notepad.service;
+package org.yashgamerx.notepad.service.file;
 
 import java.io.IOException;
 import java.nio.file.Path;

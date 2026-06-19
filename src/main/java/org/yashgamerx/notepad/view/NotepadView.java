@@ -13,9 +13,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
+import org.yashgamerx.notepad.generator.TabGenerator;
 import org.yashgamerx.notepad.handler.TabNumberHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
-import org.yashgamerx.notepad.service.FileService;
+import org.yashgamerx.notepad.service.file.FileService;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
 
@@ -52,6 +53,7 @@ public class NotepadView extends VBox {
     private final FileService fileService;
     private final NotepadViewModel viewModel;
     private final TabNumberHandler tabNumberHandler;
+    private final TabGenerator tabGenerator;
 
     // Stage is injected after FXMLLoader construction via initStage().
     private Stage stage;
@@ -64,10 +66,13 @@ public class NotepadView extends VBox {
     @FXML
     private CheckMenuItem wordWrapCheckMenuItem;
 
-    public NotepadView(FileService fileService, NotepadViewModel viewModel, TabNumberHandler tabNumberHandler) {
+    public NotepadView(FileService fileService, NotepadViewModel viewModel,
+                       TabNumberHandler tabNumberHandler, TabGenerator tabGenerator) {
         this.fileService = fileService;
         this.viewModel = viewModel;
         this.tabNumberHandler = tabNumberHandler;
+        this.tabGenerator = tabGenerator;
+
         loadFXML();
     }
 

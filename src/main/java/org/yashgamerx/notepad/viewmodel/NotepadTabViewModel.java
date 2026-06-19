@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import org.yashgamerx.notepad.model.NotepadTabModel;
-import org.yashgamerx.notepad.service.FileService;
+import org.yashgamerx.notepad.service.file.FileService;
 
 import java.io.IOException;
 import java.nio.file.Path;

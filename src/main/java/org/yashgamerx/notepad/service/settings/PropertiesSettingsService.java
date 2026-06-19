@@ -1,8 +1,8 @@
-package org.yashgamerx.notepad.service;
+package org.yashgamerx.notepad.service.settings;
 
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
-import org.yashgamerx.notepad.settings.SettingsPathResolver;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
