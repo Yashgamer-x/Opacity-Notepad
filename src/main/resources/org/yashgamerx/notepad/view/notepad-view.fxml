@@ -27,7 +27,7 @@
             <MenuItem accelerator="Ctrl+Shift+S" mnemonicParsing="false" onAction="#onSaveAsFile" text="Save As" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem accelerator="Ctrl+F" mnemonicParsing="false" onAction="#onFind" text="Find…" />
+            <MenuItem accelerator="Ctrl+F" mnemonicParsing="false" text="Find…" />
         </Menu>
         <Menu mnemonicParsing="false" text="View">
             <Menu mnemonicParsing="false" text="Opacity">

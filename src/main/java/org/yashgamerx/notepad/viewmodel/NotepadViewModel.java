@@ -53,7 +53,7 @@ public class NotepadViewModel {
     public void loadSettings() {
         opacity.set (parseDouble (settingsService.get(KEY_OPACITY,   null), DEFAULT_OPACITY));
         wordWrap.set(parseBoolean(settingsService.get(KEY_WORD_WRAP, null), false));
-        font.set    (new Font(parseDouble(settingsService.get(KEY_FONT_SIZE, null), DEFAULT_FONT_SIZE)));
+        font.set(new Font(parseDouble(settingsService.get(KEY_FONT_SIZE, null), DEFAULT_FONT_SIZE)));
     }
 
     public void increaseFontSize() {
@@ -69,9 +69,9 @@ public class NotepadViewModel {
 
     // --- Property accessors ---
 
-    public DoubleProperty       opacityProperty()  { return opacity; }
-    public BooleanProperty      wordWrapProperty() { return wordWrap; }
-    public ObjectProperty<Font> fontProperty()     { return font; }
+    public DoubleProperty opacityProperty() { return opacity; }
+    public BooleanProperty wordWrapProperty() { return wordWrap; }
+    public ObjectProperty<Font> fontProperty() { return font; }
 
     public static double getDefaultFontSize() { return DEFAULT_FONT_SIZE; }
 
@@ -85,7 +85,7 @@ public class NotepadViewModel {
     private void registerAutoSaveListeners() {
         opacity.addListener((_, _, nw) -> save(KEY_OPACITY, nw.toString()));
         wordWrap.addListener((_, _, nw) -> save(KEY_WORD_WRAP, nw.toString()));
-        font.addListener((_, _, nw)    -> save(KEY_FONT_SIZE, String.valueOf(nw.getSize())));
+        font.addListener((_, _, nw) -> save(KEY_FONT_SIZE, String.valueOf(nw.getSize())));
     }
 
     private void save(String key, String value) {

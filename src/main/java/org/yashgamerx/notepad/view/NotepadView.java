@@ -139,6 +139,7 @@ public class NotepadView extends VBox {
         onSaveFile(event);
     }
 
+    /* TODO: Find support is not yet implemented.
     @FXML
     private void onFind() {
         NotepadTabView tabView = selectedTabView();
@@ -150,7 +151,7 @@ public class NotepadView extends VBox {
         } else {
             bar.show();
         }
-    }
+    }*/
 
     @FXML
     private void addNewTab(Event event) {
