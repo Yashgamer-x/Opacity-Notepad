@@ -52,8 +52,8 @@ public class NotepadView extends VBox {
 
     private Stage stage;
 
-    @FXML private TabPane        tabPane;
-    @FXML private Slider         scaleSlider;
+    @FXML private TabPane tabPane;
+    @FXML private Slider scaleSlider;
     @FXML private CheckMenuItem  wordWrapCheckMenuItem;
 
     public NotepadView(NotepadViewModel viewModel,
@@ -94,9 +94,6 @@ public class NotepadView extends VBox {
         scaleSlider.valueProperty().bindBidirectional(viewModel.opacityProperty());
         wordWrapCheckMenuItem.selectedProperty().bindBidirectional(viewModel.wordWrapProperty());
         stage.opacityProperty().bind(viewModel.opacityProperty().divide(100.0));
-
-        // Create the first blank tab
-        createNewTab(null);
     }
 
     // --- FXML action handlers ---

@@ -43,8 +43,8 @@ public class NotepadTabGenerator implements TabGenerator {
                 : filePath.getFileName().toString();
 
         var model = new NotepadTabModel(title, filePath);
-        var vm    = new NotepadTabViewModel(model, fileService, textFinder);
-        var view  = new NotepadTabView();
+        var vm = new NotepadTabViewModel(model, fileService, textFinder);
+        var view = new NotepadTabView();
 
         view.bind(vm, context.wordWrap(), context.font());
         vm.load();
