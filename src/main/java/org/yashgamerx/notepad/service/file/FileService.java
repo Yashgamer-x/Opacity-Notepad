@@ -1,10 +1,8 @@
 package org.yashgamerx.notepad.service.file;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
-public interface FileService {
-    String read(Path path) throws IOException;
-
-    void write(Path path, String content) throws IOException;
+/**
+ * Composite interface for components that need both read and write access.
+ * Extends both ISP-split interfaces so existing consumers are unaffected.
+ */
+public interface FileService extends FileReader, FileWriter {
 }

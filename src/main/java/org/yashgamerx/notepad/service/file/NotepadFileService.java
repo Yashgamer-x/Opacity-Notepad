@@ -6,8 +6,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Concrete implementation of {@link FileService}.
+ * Delegates directly to {@link Files} — no business logic lives here.
+ */
 @Component
-public class NotepadFileService implements FileService{
+public class NotepadFileService implements FileService {
+
     @Override
     public String read(Path path) throws IOException {
         return Files.readString(path);
