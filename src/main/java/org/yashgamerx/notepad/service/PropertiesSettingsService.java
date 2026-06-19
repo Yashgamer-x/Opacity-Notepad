@@ -1,6 +1,7 @@
 package org.yashgamerx.notepad.service;
 
 import lombok.extern.java.Log;
+import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.settings.SettingsPathResolver;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +11,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 @Log
+@Component
 public class PropertiesSettingsService implements SettingsService{
 
     private final Properties properties;

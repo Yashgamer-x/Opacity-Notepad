@@ -28,7 +28,7 @@ module org.yashgamerx.notepad {
     opens org.yashgamerx.notepad.service to spring.beans, spring.core, spring.context, javafx.fxml;
     opens org.yashgamerx.notepad.viewmodel to spring.beans, spring.core, spring.context, javafx.fxml;
     opens org.yashgamerx.notepad.model to spring.beans, spring.core, spring.context, javafx.fxml;
-    opens org.yashgamerx.notepad.configuration to spring.beans, spring.core, spring.context;
+    opens org.yashgamerx.notepad.settings to spring.beans, spring.core, spring.context;
 
     // --- EXPORTS ---
 
@@ -41,5 +41,4 @@ module org.yashgamerx.notepad {
     exports org.yashgamerx.notepad.viewmodel;
     exports org.yashgamerx.notepad.service;
     exports org.yashgamerx.notepad.settings;
-    exports org.yashgamerx.notepad.configuration;
 }

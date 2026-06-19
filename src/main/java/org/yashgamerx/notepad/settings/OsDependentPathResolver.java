@@ -1,7 +1,10 @@
 package org.yashgamerx.notepad.settings;
 
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 
+@Component
 public final class OsDependentPathResolver implements SettingsPathResolver {
 
     private final String osName;
