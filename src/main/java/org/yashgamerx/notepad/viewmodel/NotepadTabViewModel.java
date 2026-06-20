@@ -10,6 +10,7 @@ import org.yashgamerx.notepad.model.NotepadTabModel;
 import org.yashgamerx.notepad.service.file.FileService;
 import org.yashgamerx.notepad.service.find.TextFinder;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -68,10 +69,10 @@ public class NotepadTabViewModel {
      *
      * @throws IllegalStateException if no file path has been set
      */
-    public void save() throws IOException {
+    public void save() throws FileNotFoundException, IOException {
         Path filePath = model.getFilePath();
         if (filePath == null) {
-            throw new IllegalStateException("Cannot save a tab without a file path.");
+            throw new FileNotFoundException("Cannot save a tab without a file path.");
         }
         fileService.write(filePath, content.get());
         modified.set(false);

@@ -21,6 +21,8 @@ import org.yashgamerx.notepad.service.file.FileService;
 import org.yashgamerx.notepad.view.find.FindBarView;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Level;
@@ -116,15 +118,14 @@ public class NotepadView extends VBox {
         NotepadTabViewModel tabViewModel = selectedTabViewModel();
         if (tabViewModel == null) return;
 
-        if (tabViewModel.getFilePath() == null) {
-            onSaveAsFile(event);
-            return;
-        }
-
         try {
             tabViewModel.save();
+            log.info("Saved file: "+tabViewModel.getFilePath());
+        } catch (FileNotFoundException e) {
+            log.info("No file selected, saving as new file.");
+            onSaveAsFile(event);
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Unable to save file.", e);
+            log.log(Level.SEVERE, "Failed to save file.", e);
         }
     }
 
@@ -138,6 +139,7 @@ public class NotepadView extends VBox {
         if (file == null) return;
 
         tabViewModel.setFilePath(file.toPath());
+        log.info("Saving file as " + file.getAbsolutePath());
         onSaveFile(event);
     }
 
