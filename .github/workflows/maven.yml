@@ -55,7 +55,7 @@ jobs:
         --main-class org.yashgamerx.notepad.Launcher \
         --runtime-image target/Opacity-Notepad-Image \
         --dest target/native \
-        --icon src/main/resources/com/yashgamerx/icon.png \
+        --icon src/main/resources/icon.png \
         --vendor "Yash Desai"
 
     - name: Zip native
