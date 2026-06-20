@@ -37,13 +37,14 @@ jobs:
         echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
         echo "TAG_NAME=v$APP_VERSION" >> $GITHUB_ENV
 
+    # Removed jlink execution since Spring cannot be processed by it
     - name: Build
       run: |
         mvn clean package
-        mvn javafx:jlink
         mkdir -p target/app/libs
         cp "target/${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" target/app/libs/
 
+    # Removed --runtime-image flag so jpackage can resolve modules on its own
     - name: Native image
       run: |
         jpackage \
@@ -53,7 +54,6 @@ jobs:
         --input target/app/libs \
         --main-jar "${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" \
         --main-class org.yashgamerx.notepad.Launcher \
-        --runtime-image target/Opacity-Notepad-Image \
         --dest target/native \
         --icon src/main/resources/icon.png \
         --vendor "Yash Desai"
@@ -63,6 +63,7 @@ jobs:
         cd target/native
         zip -r ../sendit-linux.zip *
 
+    # Removed --runtime-image flag here as well
     - name: Debian installer
       run: |
         jpackage \
@@ -72,7 +73,6 @@ jobs:
         --input target/app/libs \
         --main-jar "${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" \
         --main-class org.yashgamerx.notepad.Launcher \
-        --runtime-image target/Opacity-Notepad-Image \
         --dest target/installer \
         --icon src/main/resources/icon.png \
         --vendor "Yash Desai"
@@ -112,14 +112,15 @@ jobs:
         echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
         echo "TAG_NAME=v$APP_VERSION" >> $GITHUB_ENV
 
+    # Removed jlink execution here as well
     - name: Build
       shell: bash
       run: |
         mvn clean package
-        mvn javafx:jlink
         mkdir -p target/app/libs
         cp "target/${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" target/app/libs/
 
+    # Removed --runtime-image flag so jpackage uses JDK system modules
     - name: Windows EXE Installer
       shell: bash
       run: |
@@ -130,13 +131,13 @@ jobs:
         --input target/app/libs \
         --main-jar "${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" \
         --main-class org.yashgamerx.notepad.Launcher \
-        --runtime-image target/Opacity-Notepad-Image \
         --dest target/installer \
         --icon src/main/resources/icon.ico \
         --vendor "Yash Desai" \
         --win-shortcut \
         --win-menu
 
+    # Removed --runtime-image flag here as well
     - name: Windows MSI Installer
       shell: bash
       run: |
@@ -147,7 +148,6 @@ jobs:
         --input target/app/libs \
         --main-jar "${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" \
         --main-class org.yashgamerx.notepad.Launcher \
-        --runtime-image target/Opacity-Notepad-Image \
         --dest target/installer \
         --icon src/main/resources/icon.ico \
         --vendor "Yash Desai"
