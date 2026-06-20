@@ -48,7 +48,7 @@ jobs:
       run: |
         jpackage \
         --type app-image \
-        --name "SendIt" \
+        --name "Opacity Notepad" \
         --app-version "${{ env.APP_VERSION }}" \
         --input target/app/libs \
         --main-jar "${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" \
@@ -67,14 +67,14 @@ jobs:
       run: |
         jpackage \
         --type deb \
-        --name "SendIt" \
+        --name "Opacity Notepad" \
         --app-version "${{ env.APP_VERSION }}" \
         --input target/app/libs \
         --main-jar "${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" \
         --main-class org.yashgamerx.notepad.Launcher \
         --runtime-image target/Opacity-Notepad-Image \
         --dest target/installer \
-        --icon src/main/resources/com/yashgamerx/scenemanager/images/sendit-logo.png \
+        --icon src/main/resources/icon.png \
         --vendor "Yash Desai"
 
     - name: Upload Linux release assets
@@ -125,14 +125,14 @@ jobs:
       run: |
         jpackage \
         --type exe \
-        --name "SendIt" \
+        --name "Opacity Notepad" \
         --app-version "${{ env.APP_VERSION }}" \
         --input target/app/libs \
         --main-jar "${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" \
         --main-class org.yashgamerx.notepad.Launcher \
         --runtime-image target/Opacity-Notepad-Image \
         --dest target/installer \
-        --icon src/main/resources/com/yashgamerx/scenemanager/images/sendit-logo.ico \
+        --icon src/main/resources/icon.ico \
         --vendor "Yash Desai" \
         --win-shortcut \
         --win-menu
@@ -142,14 +142,14 @@ jobs:
       run: |
         jpackage \
         --type msi \
-        --name "SendIt" \
+        --name "Opacity Notepad" \
         --app-version "${{ env.APP_VERSION }}" \
         --input target/app/libs \
         --main-jar "${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" \
         --main-class org.yashgamerx.notepad.Launcher \
         --runtime-image target/Opacity-Notepad-Image \
         --dest target/installer \
-        --icon src/main/resources/com/yashgamerx/scenemanager/images/sendit-logo.ico \
+        --icon src/main/resources/icon.ico \
         --vendor "Yash Desai"
 
     - name: Upload Windows release assets
