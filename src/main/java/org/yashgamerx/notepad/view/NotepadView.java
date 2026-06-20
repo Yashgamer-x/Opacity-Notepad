@@ -136,19 +136,6 @@ public class NotepadView extends VBox {
         onSaveFile(event);
     }
 
-    /* TODO: Find support is not yet implemented.
-    @FXML
-    private void onFind() {
-        NotepadTabView tabView = selectedTabView();
-        if (tabView == null) return;
-
-        FindBarView bar = tabView.getFindBar();
-        if (bar.isShowing()) {
-            bar.hide();
-        } else {
-            bar.show();
-        }
-    }*/
 
     @FXML
     private void addNewTab(Event event) {
