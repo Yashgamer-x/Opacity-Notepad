@@ -14,12 +14,13 @@ import javafx.stage.Stage;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.generator.TabGenerator;
-import org.yashgamerx.notepad.model.TabContext;
+import org.yashgamerx.notepad.handler.TabNumberHandler;
+import org.yashgamerx.notepad.model.NotepadTabModel;
 import org.yashgamerx.notepad.service.file.FileOpenable;
+import org.yashgamerx.notepad.service.file.FileService;
 import org.yashgamerx.notepad.view.find.FindBarView;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Level;
@@ -47,8 +48,9 @@ import java.util.logging.Level;
 public class NotepadView extends VBox {
 
     private final NotepadViewModel viewModel;
-    private final TabGenerator tabGenerator;
     private final FileOpenable fileOpenable;
+    private final TabNumberHandler tabNumberHandler;
+    private final FileService fileService;
 
     private Stage stage;
 
@@ -57,11 +59,14 @@ public class NotepadView extends VBox {
     @FXML private CheckMenuItem  wordWrapCheckMenuItem;
 
     public NotepadView(NotepadViewModel viewModel,
-                       TabGenerator tabGenerator,
-                       FileOpenable fileOpenable) {
+                       FileOpenable fileOpenable,
+                       TabNumberHandler tabNumberHandler,
+                       FileService fileService) {
         this.viewModel    = viewModel;
-        this.tabGenerator = tabGenerator;
         this.fileOpenable = fileOpenable;
+        this.tabNumberHandler = tabNumberHandler;
+        this.fileService = fileService;
+
         loadFXML();
     }
 
@@ -163,8 +168,16 @@ public class NotepadView extends VBox {
      */
     private void createNewTab(Path filePath) {
         try {
-            var context = new TabContext(filePath, viewModel.wordWrapProperty(), viewModel.fontProperty());
-            NotepadTabView tabView = tabGenerator.generate(context);
+            String title = (filePath == null)
+                    ? "Untitled " + tabNumberHandler.postIncrement()
+                    : filePath.getFileName().toString();
+
+            var model = new NotepadTabModel(title, filePath);
+            var vm = new NotepadTabViewModel(model, fileService);
+            var tabView = new NotepadTabView();
+
+            tabView.bind(vm, viewModel.wordWrapProperty(), viewModel.fontProperty());
+            vm.load();
 
             tabView.setOnClosed(_ -> tabView.unbind());
 
