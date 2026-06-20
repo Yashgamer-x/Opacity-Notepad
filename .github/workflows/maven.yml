@@ -37,14 +37,12 @@ jobs:
         echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
         echo "TAG_NAME=v$APP_VERSION" >> $GITHUB_ENV
 
-    # Removed jlink execution since Spring cannot be processed by it
     - name: Build
       run: |
         mvn clean package
         mkdir -p target/app/libs
         cp "target/${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" target/app/libs/
 
-    # Removed --runtime-image flag so jpackage can resolve modules on its own
     - name: Native image
       run: |
         jpackage \
@@ -63,7 +61,6 @@ jobs:
         cd target/native
         zip -r ../sendit-linux.zip *
 
-    # Removed --runtime-image flag here as well
     - name: Debian installer
       run: |
         jpackage \
@@ -112,7 +109,6 @@ jobs:
         echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
         echo "TAG_NAME=v$APP_VERSION" >> $GITHUB_ENV
 
-    # Removed jlink execution here as well
     - name: Build
       shell: bash
       run: |
@@ -120,7 +116,29 @@ jobs:
         mkdir -p target/app/libs
         cp "target/${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" target/app/libs/
 
-    # Removed --runtime-image flag so jpackage uses JDK system modules
+    # 1. Generate the raw native application folder structure
+    - name: Windows Native Image
+      shell: bash
+      run: |
+        jpackage \
+        --type app-image \
+        --name "Opacity Notepad" \
+        --app-version "${{ env.APP_VERSION }}" \
+        --input target/app/libs \
+        --main-jar "${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar" \
+        --main-class org.yashgamerx.notepad.Launcher \
+        --dest target/native \
+        --icon src/main/resources/icon.ico \
+        --vendor "Yash Desai"
+
+    # 2. Zip the standalone native app folder directory
+    - name: Zip Windows Native Image
+      shell: bash
+      run: |
+        cd target/native
+        tar -a -c -f ../opacity-notepad-windows.zip *
+
+    # 3. Generate the EXE installer
     - name: Windows EXE Installer
       shell: bash
       run: |
@@ -137,7 +155,7 @@ jobs:
         --win-shortcut \
         --win-menu
 
-    # Removed --runtime-image flag here as well
+    # 4. Generate the MSI installer
     - name: Windows MSI Installer
       shell: bash
       run: |
@@ -152,6 +170,7 @@ jobs:
         --icon src/main/resources/icon.ico \
         --vendor "Yash Desai"
 
+    # 5. Upload everything (Zip, EXE, and MSI) to GitHub Releases
     - name: Upload Windows release assets
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       uses: softprops/action-gh-release@v2
@@ -159,6 +178,7 @@ jobs:
         tag_name: ${{ env.TAG_NAME }}
         name: "Release ${{ env.APP_NAME }} ${{ env.APP_VERSION }}"
         files: |
+          target/opacity-notepad-windows.zip
           target/installer/*.exe
           target/installer/*.msi
       env:
