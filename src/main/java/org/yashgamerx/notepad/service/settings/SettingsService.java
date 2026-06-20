@@ -1,4 +1,4 @@
-package org.yashgamerx.notepad.service;
+package org.yashgamerx.notepad.service.settings;
 
 public interface SettingsService {
     /// Gets the String value based on the key mentioned.

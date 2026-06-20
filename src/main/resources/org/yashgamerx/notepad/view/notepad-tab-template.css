@@ -4,6 +4,7 @@
     -fx-faint-focus-color: transparent;
 }
 
+/* Context & Menu dropdown container */
 .context-menu {
     -fx-background-color: #cfcfcf;
     -fx-padding: 4px;
@@ -11,17 +12,35 @@
     -fx-border-width: 1px;
 }
 
+/* Base menu items styling */
 .menu-item {
     -fx-padding: 6px 12px;
     -fx-background-radius: 20px;
     -fx-text-fill: black;
 }
 
-.menu-item:focused {
-    -fx-background-color: #f1ebeb;
-    -fx-text-fill: black;
+/* Force text labels to stay black across all interactions */
+.menu-item .label,
+.menu-item:focused .label,
+.menu-item:hover .label,
+.menu-item:disabled .label {
+    -fx-text-fill: black !important;
 }
 
-.menu-item:hover > .label {
-    -fx-text-fill: black;
+/* Hover/Focus background style */
+.menu-item:focused {
+    -fx-background-color: #f1ebeb;
+}
+
+/* Force CheckMenuItem checkmark to stay dark on hover/focus */
+.check-menu-item:focused .check,
+.check-menu-item:hover .check,
+.check-menu-item .check {
+    -fx-background-color: #333333 !important;
+}
+
+/* Clean up box wrapper backgrounds on selection */
+.check-menu-item:focused .box,
+.check-menu-item:hover .box {
+    -fx-background-color: transparent, transparent !important;
 }
