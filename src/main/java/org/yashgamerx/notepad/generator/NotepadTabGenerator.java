@@ -23,14 +23,11 @@ import java.io.IOException;
 public class NotepadTabGenerator implements TabGenerator {
 
     private final FileService fileService;
-    private final TextFinder textFinder;
     private final TabNumberHandler tabNumberHandler;
 
     public NotepadTabGenerator(FileService fileService,
-                               TextFinder textFinder,
                                TabNumberHandler tabNumberHandler) {
         this.fileService = fileService;
-        this.textFinder = textFinder;
         this.tabNumberHandler = tabNumberHandler;
     }
 
@@ -43,7 +40,7 @@ public class NotepadTabGenerator implements TabGenerator {
                 : filePath.getFileName().toString();
 
         var model = new NotepadTabModel(title, filePath);
-        var vm = new NotepadTabViewModel(model, fileService, textFinder);
+        var vm = new NotepadTabViewModel(model, fileService);
         var view = new NotepadTabView();
 
         view.bind(vm, context.wordWrap(), context.font());

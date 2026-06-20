@@ -38,14 +38,11 @@ public class NotepadTabViewModel {
     private final StringProperty title    = new SimpleStringProperty("");
     private final BooleanProperty modified = new SimpleBooleanProperty(false);
 
-    // Child ViewModel — lazily initialised when the TextFinder is available
-    private final FindViewModel findViewModel;
 
-    public NotepadTabViewModel(NotepadTabModel model, FileService fileService, TextFinder textFinder) {
+    public NotepadTabViewModel(NotepadTabModel model, FileService fileService) {
         this.model = model;
         this.fileService = fileService;
         this.title.set(model.getTitle());
-        this.findViewModel = new FindViewModel(textFinder, content);
         // NOTE: the content listener is intentionally NOT attached here.
         // It is attached in load() so loading a file does not mark the tab modified.
     }
@@ -95,7 +92,6 @@ public class NotepadTabViewModel {
     public StringProperty contentProperty()  { return content; }
     public StringProperty titleProperty()    { return title; }
     public BooleanProperty modifiedProperty() { return modified; }
-    public FindViewModel getFindViewModel()  { return findViewModel; }
 
     /** Returns a binding that appends {@code *} to the title when the tab is modified. */
     public StringBinding displayTitleBinding() {
