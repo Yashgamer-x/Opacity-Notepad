@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.generator.TabGenerator;
 import org.yashgamerx.notepad.handler.TabNumberHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
-import org.yashgamerx.notepad.service.file.FileOpenable;
 import org.yashgamerx.notepad.service.file.FileService;
 import org.yashgamerx.notepad.view.find.FindBarView;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
@@ -35,7 +34,7 @@ import java.util.logging.Level;
  *   <li><b>SRP</b>: tab creation is fully delegated to {@link TabGenerator} —
  *       this class no longer instantiates {@code NotepadTabModel} or
  *       {@code NotepadTabViewModel} directly.</li>
- *   <li><b>DIP</b>: depends only on {@link TabGenerator}, {@link FileOpenable},
+ *   <li><b>DIP</b>: depends only on {@link TabGenerator},
  *       and {@link NotepadViewModel} interfaces/beans — never on concrete classes.</li>
  *   <li><b>OCP</b>: Find support is added by wiring the existing
  *       {@link FindBarView} already embedded in each {@link NotepadTabView},
@@ -50,7 +49,6 @@ import java.util.logging.Level;
 public class NotepadView extends VBox {
 
     private final NotepadViewModel viewModel;
-    private final FileOpenable fileOpenable;
     private final TabNumberHandler tabNumberHandler;
     private final FileService fileService;
 
@@ -61,11 +59,9 @@ public class NotepadView extends VBox {
     @FXML private CheckMenuItem  wordWrapCheckMenuItem;
 
     public NotepadView(NotepadViewModel viewModel,
-                       FileOpenable fileOpenable,
                        TabNumberHandler tabNumberHandler,
                        FileService fileService) {
         this.viewModel    = viewModel;
-        this.fileOpenable = fileOpenable;
         this.tabNumberHandler = tabNumberHandler;
         this.fileService = fileService;
 
@@ -107,7 +103,8 @@ public class NotepadView extends VBox {
 
     @FXML
     private void onOpenFile() {
-        var file = fileOpenable.open(stage);
+        var chooser = new FileChooser();
+        var file = chooser.showOpenDialog(stage);
         if (file != null) {
             createNewTab(file.toPath());
         }
