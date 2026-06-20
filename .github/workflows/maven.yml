@@ -133,10 +133,9 @@ jobs:
 
     # 2. Zip the standalone native app folder directory
     - name: Zip Windows Native Image
-      shell: bash
+      shell: powershell
       run: |
-        cd target/native
-        tar -a -c -f ../opacity-notepad-windows.zip *
+        Compress-Archive -Path target/native/* -DestinationPath target/opacity-notepad-windows.zip -Force
 
     # 3. Generate the EXE installer
     - name: Windows EXE Installer
