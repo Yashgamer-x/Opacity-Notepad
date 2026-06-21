@@ -54,9 +54,8 @@ public class FindBarView extends HBox {
     }
 
     public void toggleFind(){
-        log.info("Toggling Find Visibility");
         findViewModel.toggleFindVisibility();
-        log.info("Find Visibility Toggled");
+        log.info("Find Visibility Toggled to "+findViewModel.isFindVisibleProperty().get());
     }
 
     private void onFindNext(){
@@ -68,6 +67,7 @@ public class FindBarView extends HBox {
     }
 
     private void onCloseFind(){
-        log.info("Closing Find");
+        findViewModel.closeFind();
+        log.info("Find Closed");
     }
 }

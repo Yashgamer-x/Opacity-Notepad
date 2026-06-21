@@ -15,6 +15,10 @@ public class FindViewModel {
         isFindVisible.set(!isFindVisible.get());
     }
 
+    public void closeFind() {
+        isFindVisible.set(false);
+    }
+
     public BooleanProperty isFindVisibleProperty() {
         return isFindVisible;
     }
