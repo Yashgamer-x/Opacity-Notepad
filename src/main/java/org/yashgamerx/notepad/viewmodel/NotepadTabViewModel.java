@@ -41,7 +41,7 @@ public class NotepadTabViewModel {
 
     // Listener
     private boolean listenerAttached = false;
-    private ChangeListener<String> contentListener;
+    private final ChangeListener<String> contentListener;
 
     public NotepadTabViewModel(NotepadTabModel model, FileService fileService) {
         this.model = model;
