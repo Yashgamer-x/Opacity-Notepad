@@ -44,3 +44,69 @@
 .check-menu-item:hover .box {
     -fx-background-color: transparent, transparent !important;
 }
+
+/* --- FindBar Container Styling --- */
+.find-bar {
+    -fx-background-color: #f1ebeb; /* Matches your menu hover color for unity */
+    -fx-border-color: #cfcfcf;
+    -fx-border-width: 1px 0 0 0; /* Thin border separating it from the TextArea */
+}
+
+/* FindBar Search Input */
+.find-text-field {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 4px;
+    -fx-border-color: #cfcfcf;
+    -fx-border-radius: 4px;
+    -fx-text-fill: black;
+    -fx-padding: 4px 8px;
+}
+
+.find-text-field:focused {
+    -fx-border-color: #333333; /* Clean dark gray focus border instead of blue */
+}
+
+/* FindBar Standard Buttons */
+.find-button {
+    -fx-background-color: #cfcfcf;
+    -fx-background-radius: 4px;
+    -fx-text-fill: black;
+    -fx-padding: 4px 12px;
+}
+
+.find-button:hover {
+    -fx-background-color: #b8b8b8;
+}
+
+.find-button:armed {
+    -fx-background-color: #a1a1a1;
+}
+
+/* FindBar Close Button (X) */
+.find-close-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #666666;
+    -fx-background-radius: 10px;
+    -fx-padding: 4px 8px;
+}
+
+.find-close-button:hover {
+    -fx-background-color: #e3dcdc;
+    -fx-text-fill: black;
+}
+
+/* --- Ikonli Icon Core Styling --- */
+.find-icon {
+    -fx-icon-size: 12px;
+    -fx-icon-color: #333333; /* Dark gray to match your theme's checkmarks */
+}
+
+.find-close-icon {
+    -fx-icon-size: 12px;
+    -fx-icon-color: #666666; /* Slightly softer color for the close icon by default */
+}
+
+/* Make the close icon turn darker when hovering over its button */
+.find-close-button:hover .find-close-icon {
+    -fx-icon-color: black;
+}
