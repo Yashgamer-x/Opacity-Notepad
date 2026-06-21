@@ -172,7 +172,7 @@ public class NotepadView extends VBox {
         Optional<NotepadTabView> selectedTabView = selectedTabView();
         if(selectedTabView.isEmpty()) return;
 
-        selectedTabView.get().openFind();
+        selectedTabView.get().toggleFind();
     }
 
     // --- Private helpers ---

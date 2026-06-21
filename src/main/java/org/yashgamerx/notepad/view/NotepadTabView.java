@@ -100,7 +100,7 @@ public class NotepadTabView extends Tab {
         zoomPercentage.textProperty().unbind();
     }
 
-    public void openFind() {
-        findBarView.openFind();
+    public void toggleFind() {
+        findBarView.toggleFind();
     }
 }

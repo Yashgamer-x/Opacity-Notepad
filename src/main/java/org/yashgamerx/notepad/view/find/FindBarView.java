@@ -24,6 +24,8 @@ public class FindBarView extends HBox {
     @FXML private Button findPreviousButton;
     @FXML private Button closeButton;
 
+    private final FindViewModel findViewModel = new FindViewModel();
+
     public FindBarView() {
         loadFXML();
     }
@@ -43,13 +45,18 @@ public class FindBarView extends HBox {
 
     @FXML
     private void initialize() {
+        this.visibleProperty().bind(findViewModel.isFindVisibleProperty());
+        this.managedProperty().bind(findViewModel.isFindVisibleProperty());
+
         findNextButton.setOnAction(_ -> onFindNext());
         findPreviousButton.setOnAction(_ -> onFindPrevious());
         closeButton.setOnAction(_ -> onCloseFind());
     }
 
-    public void openFind(){
-        log.info("Opening Find");
+    public void toggleFind(){
+        log.info("Toggling Find Visibility");
+        findViewModel.toggleFindVisibility();
+        log.info("Find Visibility Toggled");
     }
 
     private void onFindNext(){
