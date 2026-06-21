@@ -45,6 +45,9 @@ public class FindBarView extends HBox {
 
     @FXML
     private void initialize() {
+    }
+
+    public void bind() {
         this.visibleProperty().bind(findViewModel.isFindVisibleProperty());
         this.managedProperty().bind(findViewModel.isFindVisibleProperty());
 
@@ -69,5 +72,10 @@ public class FindBarView extends HBox {
     private void onCloseFind(){
         findViewModel.closeFind();
         log.info("Find Closed");
+    }
+
+    public void unbind() {
+        this.visibleProperty().unbind();
+        this.managedProperty().unbind();
     }
 }

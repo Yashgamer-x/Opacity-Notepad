@@ -69,19 +69,27 @@ public class NotepadTabView extends Tab {
     ) {
         this.viewModel = viewModel;
 
+        // Bind the TextArea to the ViewModel's content property'
         textArea.textProperty().bindBidirectional(viewModel.contentProperty());
         textArea.wrapTextProperty().bind(wordWrapProperty);
         textArea.fontProperty().bind(fontProperty);
 
+        // Bind the tab's text to the ViewModel's display title property
         tab.textProperty().bind(viewModel.displayTitleBinding());
+
+        // Bind the status labels to the ViewModel's line and character counts'
         numberOfLines.textProperty().bind(viewModel.lineCountBinding());
         characters.textProperty().bind(viewModel.characterCountBinding());
 
+        // Bind the zoom percentage label to the font size property
         var percentBinding = Bindings.createDoubleBinding(
                 () -> (fontProperty.get().getSize() / NotepadViewModel.DEFAULT_FONT_SIZE) * 100.0,
                 fontProperty
         );
         zoomPercentage.textProperty().bind(percentBinding.asString("%.0f%%"));
+
+        // Bind the FindBarView to the ViewModel's findEnabled property'
+        findBarView.bind();
     }
 
     /**
@@ -91,6 +99,7 @@ public class NotepadTabView extends Tab {
     public void unbind() {
         if (viewModel == null) return;
 
+        // Unbind the TextArea and all other properties
         textArea.textProperty().unbindBidirectional(viewModel.contentProperty());
         textArea.wrapTextProperty().unbind();
         textArea.fontProperty().unbind();
@@ -98,6 +107,7 @@ public class NotepadTabView extends Tab {
         numberOfLines.textProperty().unbind();
         characters.textProperty().unbind();
         zoomPercentage.textProperty().unbind();
+        findBarView.unbind();
     }
 
     public void toggleFind() {
