@@ -39,6 +39,7 @@ public class NotepadViewModel {
     private final DoubleProperty opacity  = new SimpleDoubleProperty(DEFAULT_OPACITY);
     private final BooleanProperty wordWrap = new SimpleBooleanProperty(false);
     private final ObjectProperty<Font> font = new SimpleObjectProperty<>(new Font(DEFAULT_FONT_SIZE));
+    private final BooleanProperty findEnabled = new SimpleBooleanProperty(false);
 
     public NotepadViewModel(SettingsService settingsService) {
         this.settingsService = settingsService;
@@ -72,6 +73,7 @@ public class NotepadViewModel {
     public DoubleProperty opacityProperty() { return opacity; }
     public BooleanProperty wordWrapProperty() { return wordWrap; }
     public ObjectProperty<Font> fontProperty() { return font; }
+    public BooleanProperty findEnabledProperty() { return findEnabled; }
 
     public static double getDefaultFontSize() { return DEFAULT_FONT_SIZE; }
 

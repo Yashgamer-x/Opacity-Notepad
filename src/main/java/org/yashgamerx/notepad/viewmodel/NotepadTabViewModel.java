@@ -6,10 +6,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import org.yashgamerx.notepad.model.NotepadTabModel;
 import org.yashgamerx.notepad.service.file.FileService;
-import org.yashgamerx.notepad.service.find.TextFinder;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -39,11 +38,18 @@ public class NotepadTabViewModel {
     private final StringProperty title    = new SimpleStringProperty("");
     private final BooleanProperty modified = new SimpleBooleanProperty(false);
 
+    // Listener
+    private ChangeListener<String> contentListener;
 
     public NotepadTabViewModel(NotepadTabModel model, FileService fileService) {
         this.model = model;
         this.fileService = fileService;
         this.title.set(model.getTitle());
+        this.contentListener =  (_, _, _) -> {
+            modified.set(true);
+            System.out.println("Still Listening");
+            content.removeListener(contentListener);
+        };
         // NOTE: the content listener is intentionally NOT attached here.
         // It is attached in load() so loading a file does not mark the tab modified.
     }
@@ -61,7 +67,7 @@ public class NotepadTabViewModel {
 
         // Reset before attaching the listener so loading never marks tab modified.
         modified.set(false);
-        content.addListener((_, _, _) -> modified.set(true));
+        content.addListener(contentListener);
     }
 
     /**
@@ -75,6 +81,14 @@ public class NotepadTabViewModel {
             throw new FileNotFoundException("Cannot save a tab without a file path.");
         }
         fileService.write(filePath, content.get());
+
+        // Reset the fields and start listening for changes again.
+
+        // Gets if the content is modified or not because adding listener without this will create multiple listeners.
+        // So, only attaches the listener if the content was previously modified.
+        if(modified.get()) {
+            content.addListener(contentListener);
+        }
         modified.set(false);
     }
 
