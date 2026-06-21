@@ -9,15 +9,6 @@ import org.yashgamerx.notepad.service.find.TextFinder;
 
 import java.util.List;
 
-/**
- * ViewModel for the Find toolbar.
- *
- * <p>SRP: owns only find-related state and logic. The view observes its
- * properties and calls {@link #search(String)} when the user types.</p>
- *
- * <p>DIP: depends on the {@link TextFinder} abstraction, not on any
- * concrete regex implementation.</p>
- */
 public class FindViewModel {
 
     private final TextFinder textFinder;

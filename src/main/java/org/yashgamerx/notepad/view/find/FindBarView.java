@@ -48,6 +48,10 @@ public class FindBarView extends HBox {
         closeButton.setOnAction(_ -> onCloseFind());
     }
 
+    public void openFind(){
+        log.info("Opening Find");
+    }
+
     private void onFindNext(){
         log.info("Finding next");
     }

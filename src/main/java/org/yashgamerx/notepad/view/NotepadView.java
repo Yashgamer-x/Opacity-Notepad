@@ -20,10 +20,10 @@ import org.yashgamerx.notepad.service.file.FileService;
 import org.yashgamerx.notepad.view.find.FindBarView;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.logging.Level;
 
 /**
@@ -115,8 +115,10 @@ public class NotepadView extends VBox {
     /// if file was never created.
     @FXML
     private void onSaveFile(ActionEvent event) {
-        NotepadTabViewModel tabViewModel = selectedTabViewModel();
-        if (tabViewModel == null) return;
+        Optional<NotepadTabViewModel> optionalTabViewModel = selectedTabViewModel();
+        if(optionalTabViewModel.isEmpty()) return;
+
+        NotepadTabViewModel tabViewModel = optionalTabViewModel.get();
 
         try {
             tabViewModel.save();
@@ -132,8 +134,9 @@ public class NotepadView extends VBox {
     /// Saves a new copy of the file by prompting the user for the file path along with the name
     @FXML
     private void onSaveAsFile(ActionEvent event) {
-        NotepadTabViewModel tabViewModel = selectedTabViewModel();
-        if (tabViewModel == null) return;
+        Optional<NotepadTabViewModel> optionalTabViewModel = selectedTabViewModel();
+        if(optionalTabViewModel.isEmpty()) return;
+        NotepadTabViewModel tabViewModel = optionalTabViewModel.get();
 
         var chooser = new FileChooser();
         var file = chooser.showSaveDialog(stage);
@@ -166,7 +169,10 @@ public class NotepadView extends VBox {
 
     @FXML
     private void onFind() {
-        System.out.println("On Find Triggered");
+        Optional<NotepadTabView> selectedTabView = selectedTabView();
+        if(selectedTabView.isEmpty()) return;
+
+        selectedTabView.get().openFind();
     }
 
     // --- Private helpers ---
@@ -200,14 +206,15 @@ public class NotepadView extends VBox {
     }
 
     /// Returns the selected [NotepadTabView]/
-    private NotepadTabView selectedTabView() {
+    private Optional<NotepadTabView> selectedTabView() {
         Tab selected = tabPane.getSelectionModel().getSelectedItem();
-        return (selected instanceof NotepadTabView tv) ? tv : null;
+        return (selected instanceof NotepadTabView tv) ? Optional.of(tv) : Optional.empty();
     }
 
     /// Returns the viewmodel of the selected tab view, i.e. [NotepadTabViewModel]
-    private NotepadTabViewModel selectedTabViewModel() {
-        NotepadTabView tv = selectedTabView();
-        return (tv != null) ? tv.getViewModel() : null;
+    private Optional<NotepadTabViewModel> selectedTabViewModel() {
+        var tv = selectedTabView();
+        if(tv.isEmpty()) Optional.empty();
+        return tv.map(NotepadTabView::getViewModel);
     }
 }

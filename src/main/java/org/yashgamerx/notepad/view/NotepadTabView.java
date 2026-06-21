@@ -99,4 +99,8 @@ public class NotepadTabView extends Tab {
         characters.textProperty().unbind();
         zoomPercentage.textProperty().unbind();
     }
+
+    public void openFind() {
+        findBarView.openFind();
+    }
 }
