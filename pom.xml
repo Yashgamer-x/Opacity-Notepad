@@ -19,6 +19,7 @@
         <junit.version>5.12.1</junit.version>
         <lombok.version>1.18.38</lombok.version>
         <spring.version>7.0.8</spring.version>
+        <ikonli.version>12.4.0</ikonli.version>
     </properties>
 
     <!-- Dependencies -->
@@ -62,6 +63,18 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome6-pack</artifactId>
+            <version>${ikonli.version}</version>
         </dependency>
     </dependencies>
 
@@ -135,6 +148,7 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>org.yashgamerx.notepad.Launcher</mainClass>
                                 </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>

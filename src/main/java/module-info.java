@@ -17,6 +17,11 @@ module org.yashgamerx.notepad {
     requires spring.core;
     requires org.jspecify;
 
+    // Ikonli
+//    requires org.kordamp.ikonli.core;
+//    requires org.kordamp.ikonli.javafx;
+//    requires org.kordamp.ikonli.fontawesome6;
+
     // --- OPENS FOR REFLECTION ---
 
     opens org.yashgamerx.notepad to javafx.fxml;
