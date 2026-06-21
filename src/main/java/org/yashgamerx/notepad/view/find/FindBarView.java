@@ -94,8 +94,28 @@ public class FindBarView extends HBox {
         }
     }
 
-    private void onFindPrevious(){
+    private void onFindPrevious() {
         log.info("Finding previous");
+        String searchWord = findViewModel.findTextProperty().get();
+        if (searchWord == null || searchWord.isEmpty()) return;
+
+        int currentIndex = findTextContext.getCaretPosition();
+        int previousIndex = findViewModel.findPreviousWordIndex(currentIndex);
+
+        // Wrap around: If no match is found going backward, wrap to the end of the file
+        if (previousIndex == -1) {
+            int textLength = findViewModel.textProperty().get().length();
+            // Passing textLength + searchWord.length() + 1 ensures the ViewModel's
+            // internal subtraction brings the search boundary exactly to textLength
+            previousIndex = findViewModel.findPreviousWordIndex(textLength + searchWord.length() + 1);
+        }
+
+        // If a match exists anywhere in the document, highlight it
+        if (previousIndex != -1) {
+            findTextContext.highlightAndScrollTo(previousIndex, previousIndex + searchWord.length());
+        } else {
+            log.info("Word not found in document.");
+        }
     }
 
     private void onCloseFind(){

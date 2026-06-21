@@ -29,6 +29,26 @@ public class FindViewModel {
         return text.indexOf(findText.get(), currentIndex);
     }
 
+    public int findPreviousWordIndex(int currentIndex) {
+        String textRaw = this.text.get();
+        String queryRaw = this.findText.get();
+
+        if (textRaw == null || queryRaw == null || queryRaw.isEmpty()) {
+            return -1;
+        }
+
+        // To prevent matching the current word again, the maximum allowed starting
+        // index for the previous match must be strictly before the current word's start.
+        int searchStartIndex = currentIndex - queryRaw.length() - 1;
+
+        // Boundary protection: if we're already at the very beginning of the document
+        if (searchStartIndex < 0) {
+            return -1;
+        }
+
+        return textRaw.lastIndexOf(queryRaw, searchStartIndex);
+    }
+
     // --- Property accessors ---
     public BooleanProperty isFindVisibleProperty() {
         return isFindVisible;
