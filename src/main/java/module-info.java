@@ -15,6 +15,7 @@ module org.yashgamerx.notepad {
     requires spring.context;
     requires spring.beans;
     requires spring.core;
+    requires org.jspecify;
 
     // --- OPENS FOR REFLECTION ---
 

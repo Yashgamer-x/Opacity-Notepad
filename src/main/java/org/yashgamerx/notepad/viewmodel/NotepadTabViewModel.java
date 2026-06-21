@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
+import org.jspecify.annotations.NonNull;
 import org.yashgamerx.notepad.model.NotepadTabModel;
 import org.yashgamerx.notepad.service.file.FileService;
 import java.io.FileNotFoundException;
@@ -39,17 +40,14 @@ public class NotepadTabViewModel {
     private final BooleanProperty modified = new SimpleBooleanProperty(false);
 
     // Listener
+    private boolean listenerAttached = false;
     private ChangeListener<String> contentListener;
 
     public NotepadTabViewModel(NotepadTabModel model, FileService fileService) {
         this.model = model;
         this.fileService = fileService;
         this.title.set(model.getTitle());
-        this.contentListener =  (_, _, _) -> {
-            modified.set(true);
-            System.out.println("Still Listening");
-            content.removeListener(contentListener);
-        };
+        this.contentListener = generateContentListener();
         // NOTE: the content listener is intentionally NOT attached here.
         // It is attached in load() so loading a file does not mark the tab modified.
     }
@@ -67,7 +65,7 @@ public class NotepadTabViewModel {
 
         // Reset before attaching the listener so loading never marks tab modified.
         modified.set(false);
-        content.addListener(contentListener);
+        attachContentListener();
     }
 
     /**
@@ -83,13 +81,8 @@ public class NotepadTabViewModel {
         fileService.write(filePath, content.get());
 
         // Reset the fields and start listening for changes again.
-
-        // Gets if the content is modified or not because adding listener without this will create multiple listeners.
-        // So, only attaches the listener if the content was previously modified.
-        if(modified.get()) {
-            content.addListener(contentListener);
-        }
         modified.set(false);
+        attachContentListener();
     }
 
     /** Updates the file path and derives the tab title from the filename. */
@@ -130,6 +123,25 @@ public class NotepadTabViewModel {
                 () -> content.get().length() + " Characters",
                 content
         );
+    }
+
+    /// Attaches the contentListener only if the has not been previously attached.
+    private void attachContentListener() {
+        if(listenerAttached) return;
+
+        content.addListener(contentListener);
+        listenerAttached = true;
+    }
+
+    /// Generates a [ChangeListener] that on modification of the content sets the modification status to true, removes
+    /// the listener itself to avoid thread's consumption and changes the listenerAttached status to `false` so that
+    /// when file is saved, the [NotepadTabViewModel#contentListener] can be attached again.
+    private @NonNull ChangeListener<String> generateContentListener() {
+        return (_, _, _) -> {
+            modified.set(true);
+            content.removeListener(contentListener);
+            listenerAttached = false;
+        };
     }
 
     public void setTitle(String title) {
