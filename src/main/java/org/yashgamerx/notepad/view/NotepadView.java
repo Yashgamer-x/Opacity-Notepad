@@ -101,6 +101,7 @@ public class NotepadView extends VBox {
 
     // --- FXML action handlers ---
 
+    /// Opens up the file and creates a new Tab.
     @FXML
     private void onOpenFile() {
         var chooser = new FileChooser();
@@ -110,6 +111,8 @@ public class NotepadView extends VBox {
         }
     }
 
+    /// Saves the content of the file to the designated filepath or prompts the user to create a new file
+    /// if file was never created.
     @FXML
     private void onSaveFile(ActionEvent event) {
         NotepadTabViewModel tabViewModel = selectedTabViewModel();
@@ -126,6 +129,7 @@ public class NotepadView extends VBox {
         }
     }
 
+    /// Saves a new copy of the file by prompting the user for the file path along with the name
     @FXML
     private void onSaveAsFile(ActionEvent event) {
         NotepadTabViewModel tabViewModel = selectedTabViewModel();
@@ -140,7 +144,7 @@ public class NotepadView extends VBox {
         onSaveFile(event);
     }
 
-
+    /// Adds a new tab at the end of all the tabs and before `+` Tab
     @FXML
     private void addNewTab(Event event) {
         var tab = (Tab) event.getSource();
@@ -148,14 +152,21 @@ public class NotepadView extends VBox {
         createNewTab(null);
     }
 
+    /// Increases the fontsize
     @FXML
     private void onIncreaseFontSize() {
         viewModel.increaseFontSize();
     }
 
+    /// Decreases the fontsize
     @FXML
     private void onDecreaseFontSize() {
         viewModel.decreaseFontSize();
+    }
+
+    @FXML
+    private void onFind() {
+        System.out.println("On Find Triggered");
     }
 
     // --- Private helpers ---
@@ -188,11 +199,13 @@ public class NotepadView extends VBox {
         }
     }
 
+    /// Returns the selected [NotepadTabView]/
     private NotepadTabView selectedTabView() {
         Tab selected = tabPane.getSelectionModel().getSelectedItem();
         return (selected instanceof NotepadTabView tv) ? tv : null;
     }
 
+    /// Returns the viewmodel of the selected tab view, i.e. [NotepadTabViewModel]
     private NotepadTabViewModel selectedTabViewModel() {
         NotepadTabView tv = selectedTabView();
         return (tv != null) ? tv.getViewModel() : null;
