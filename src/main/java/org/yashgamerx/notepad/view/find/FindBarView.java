@@ -4,7 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import lombok.Setter;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.yashgamerx.notepad.viewmodel.FindTextContext;
 import org.yashgamerx.notepad.viewmodel.FindViewModel;
 
 import java.io.IOException;
@@ -17,12 +22,17 @@ import java.io.IOException;
  * delegates user actions.</p>
  */
 @Log
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FindBarView extends HBox {
 
     @FXML private TextField searchField;
     @FXML private Button findNextButton;
     @FXML private Button findPreviousButton;
     @FXML private Button closeButton;
+
+    @Setter
+    private FindTextContext findTextContext;
 
     private final FindViewModel findViewModel = new FindViewModel();
 
@@ -50,6 +60,8 @@ public class FindBarView extends HBox {
     public void bind() {
         this.visibleProperty().bind(findViewModel.isFindVisibleProperty());
         this.managedProperty().bind(findViewModel.isFindVisibleProperty());
+        findViewModel.textProperty().bind(findTextContext.textAreaProperty());
+        findViewModel.findTextProperty().bind(searchField.textProperty());
 
         findNextButton.setOnAction(_ -> onFindNext());
         findPreviousButton.setOnAction(_ -> onFindPrevious());
@@ -61,8 +73,25 @@ public class FindBarView extends HBox {
         log.info("Find Visibility Toggled to "+findViewModel.isFindVisibleProperty().get());
     }
 
-    private void onFindNext(){
+    private void onFindNext() {
         log.info("Finding next");
+        String searchWord = findViewModel.findTextProperty().get();
+        if (searchWord == null || searchWord.isEmpty()) return;
+
+        int currentIndex = findTextContext.getCaretPosition();
+        int nextIndex = findViewModel.findNextWordIndex(currentIndex);
+
+        // If not found forward, cleanly wrap around to index 0 (start of file)
+        if (nextIndex == -1) {
+            nextIndex = findViewModel.findNextWordIndex(0);
+        }
+
+        // Act if a valid match is found anywhere in the text
+        if (nextIndex != -1) {
+            findTextContext.highlightAndScrollTo(nextIndex, nextIndex + searchWord.length());
+        } else {
+            log.info("Word not found in document.");
+        }
     }
 
     private void onFindPrevious(){
@@ -77,5 +106,7 @@ public class FindBarView extends HBox {
     public void unbind() {
         this.visibleProperty().unbind();
         this.managedProperty().unbind();
+        findViewModel.textProperty().unbind();
+        findViewModel.findTextProperty().unbind();
     }
 }

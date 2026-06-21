@@ -3,6 +3,7 @@ package org.yashgamerx.notepad.view;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -12,7 +13,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import lombok.Getter;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.view.find.FindBarView;
+import org.yashgamerx.notepad.viewmodel.FindTextContext;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
 
@@ -20,7 +25,9 @@ import java.io.IOException;
 
 @Log
 @Getter
-public class NotepadTabView extends Tab {
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class NotepadTabView extends Tab implements FindTextContext {
 
     // FXML fields
     @FXML private Tab tab;
@@ -53,6 +60,7 @@ public class NotepadTabView extends Tab {
 
     @FXML
     private void initialize() {
+        this.findBarView.setFindTextContext(this);
     }
 
     /**
@@ -112,5 +120,22 @@ public class NotepadTabView extends Tab {
 
     public void toggleFind() {
         findBarView.toggleFind();
+    }
+
+    // --- FindTextContext implementation ---
+
+    @Override
+    public StringProperty textAreaProperty() {
+        return textArea.textProperty();
+    }
+
+    @Override
+    public int getCaretPosition() {
+        return textArea.getCaretPosition();
+    }
+
+    @Override
+    public void highlightAndScrollTo(int start, int end) {
+        textArea.selectRange(start, end);
     }
 }
