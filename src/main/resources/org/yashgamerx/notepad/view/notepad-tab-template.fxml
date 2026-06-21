@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
+<?import org.yashgamerx.notepad.view.find.FindBarView?>
 
 <fx:root type="Tab"
          text="Untitled Tab 1"
@@ -22,6 +23,7 @@
               AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">
             <TextArea fx:id="textArea" promptText="Type the text here" VBox.vgrow="ALWAYS" />
+            <FindBarView/>
             <!-- FindBarView is inserted here programmatically at index 1 -->
             <HBox alignment="CENTER_LEFT" prefHeight="50.0">
                 <Label fx:id="numberOfLines" text="Ln 64, Col 12" alignment="CENTER"
