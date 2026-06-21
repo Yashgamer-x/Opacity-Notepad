@@ -34,7 +34,7 @@
         </tooltip>
     </Button>
 
-    <Button fx:id="closeFindButton" mnemonicParsing="false" styleClass="find-close-button">
+    <Button fx:id="closeButton" mnemonicParsing="false" styleClass="find-close-button">
         <graphic>
             <FontIcon iconLiteral="fas-times" styleClass="find-close-icon" />
         </graphic>

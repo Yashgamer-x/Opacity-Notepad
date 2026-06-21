@@ -19,14 +19,10 @@ import java.io.IOException;
 @Log
 public class FindBarView extends HBox {
 
-    @FXML
-    private TextField searchField;
-    @FXML
-    private Button findNextButton;
-    @FXML
-    private Button findPreviousButton;
-    @FXML
-    private Button closeButton;
+    @FXML private TextField searchField;
+    @FXML private Button findNextButton;
+    @FXML private Button findPreviousButton;
+    @FXML private Button closeButton;
 
     public FindBarView() {
         loadFXML();
@@ -47,8 +43,8 @@ public class FindBarView extends HBox {
 
     @FXML
     private void initialize() {
-        findNextButton.setOnAction(_ -> {});
-        findPreviousButton.setOnAction(_ -> {});
+        findNextButton.setOnAction(_ -> onFindNext());
+        findPreviousButton.setOnAction(_ -> onFindPrevious());
         closeButton.setOnAction(_ -> onCloseFind());
     }
 

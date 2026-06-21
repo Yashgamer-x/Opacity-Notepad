@@ -23,7 +23,7 @@
               AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">
             <TextArea fx:id="textArea" promptText="Type the text here" VBox.vgrow="ALWAYS" />
-            <FindBarView/>
+            <FindBarView fx:id="findBarView"/>
             <!-- FindBarView is inserted here programmatically at index 1 -->
             <HBox alignment="CENTER_LEFT" prefHeight="50.0">
                 <Label fx:id="numberOfLines" text="Ln 64, Col 12" alignment="CENTER"
