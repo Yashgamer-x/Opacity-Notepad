@@ -21,7 +21,7 @@
             <FontIcon iconLiteral="fas-arrow-down" styleClass="find-icon" />
         </graphic>
         <tooltip>
-            <Tooltip text="Next match (Enter)" />
+            <Tooltip text="Next match" />
         </tooltip>
     </Button>
 
@@ -30,7 +30,7 @@
             <FontIcon iconLiteral="fas-arrow-up" styleClass="find-icon" />
         </graphic>
         <tooltip>
-            <Tooltip text="Previous match (Shift+Enter)" />
+            <Tooltip text="Previous match" />
         </tooltip>
     </Button>
 
@@ -39,7 +39,7 @@
             <FontIcon iconLiteral="fas-times" styleClass="find-close-icon" />
         </graphic>
         <tooltip>
-            <Tooltip text="Close find bar (Esc)" />
+            <Tooltip text="Close find bar" />
         </tooltip>
     </Button>
 </fx:root>
