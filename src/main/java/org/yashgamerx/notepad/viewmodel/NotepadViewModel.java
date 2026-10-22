@@ -3,7 +3,6 @@ package org.yashgamerx.notepad.viewmodel;
 import javafx.beans.property.*;
 import javafx.scene.text.Font;
 import lombok.extern.java.Log;
-import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.service.settings.SettingsService;
 
 import java.util.logging.Level;
@@ -22,7 +21,6 @@ import java.util.logging.Level;
  * </ul>
  */
 @Log
-@Component
 public class NotepadViewModel {
 
     /** Single source of truth for default font size — shared with {@code NotepadTabView}. */
@@ -39,6 +37,7 @@ public class NotepadViewModel {
     private final DoubleProperty opacity  = new SimpleDoubleProperty(DEFAULT_OPACITY);
     private final BooleanProperty wordWrap = new SimpleBooleanProperty(false);
     private final ObjectProperty<Font> font = new SimpleObjectProperty<>(new Font(DEFAULT_FONT_SIZE));
+    private final BooleanProperty findEnabled = new SimpleBooleanProperty(false);
 
     public NotepadViewModel(SettingsService settingsService) {
         this.settingsService = settingsService;
@@ -72,6 +71,7 @@ public class NotepadViewModel {
     public DoubleProperty opacityProperty() { return opacity; }
     public BooleanProperty wordWrapProperty() { return wordWrap; }
     public ObjectProperty<Font> fontProperty() { return font; }
+    public BooleanProperty findEnabledProperty() { return findEnabled; }
 
     public static double getDefaultFontSize() { return DEFAULT_FONT_SIZE; }
 

@@ -1,6 +1,5 @@
 package org.yashgamerx.notepad.handler;
 
-import org.springframework.stereotype.Component;
 
 /**
  * Generates monotonically increasing tab numbers.
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Component;
  * <p>Instantiated once and injected wherever tab numbering is needed,
  * making it testable and avoiding global mutable static state.</p>
  */
-@Component
 public class TabNumberHandler {
 
     private int tabNumber = 1;
