@@ -13,9 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import lombok.Getter;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.view.find.FindBarView;
 import org.yashgamerx.notepad.viewmodel.FindTextContext;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
@@ -25,8 +22,6 @@ import java.io.IOException;
 
 @Log
 @Getter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class NotepadTabView extends Tab implements FindTextContext {
 
     // FXML fields
@@ -56,11 +51,6 @@ public class NotepadTabView extends Tab implements FindTextContext {
         } catch (IOException e) {
             log.severe("Failed to load notepad-tab-template.fxml: " + e.getMessage());
         }
-    }
-
-    @FXML
-    private void initialize() {
-        this.findBarView.setFindTextContext(this);
     }
 
     /**
@@ -96,8 +86,8 @@ public class NotepadTabView extends Tab implements FindTextContext {
         );
         zoomPercentage.textProperty().bind(percentBinding.asString("%.0f%%"));
 
-        // Bind the FindBarView to the ViewModel's findEnabled property'
-        findBarView.bind();
+        // Bind the find bar to the tab's find view model
+        findBarView.bind(viewModel.getFindViewModel(), this);
     }
 
     /**

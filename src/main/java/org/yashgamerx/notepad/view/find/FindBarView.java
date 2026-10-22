@@ -4,11 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import lombok.Setter;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.viewmodel.FindTextContext;
 import org.yashgamerx.notepad.viewmodel.FindViewModel;
 
@@ -22,8 +18,6 @@ import java.io.IOException;
  * delegates user actions.</p>
  */
 @Log
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FindBarView extends HBox {
 
     @FXML private TextField searchField;
@@ -31,10 +25,8 @@ public class FindBarView extends HBox {
     @FXML private Button findPreviousButton;
     @FXML private Button closeButton;
 
-    @Setter
     private FindTextContext findTextContext;
-
-    private final FindViewModel findViewModel = new FindViewModel();
+    private FindViewModel findViewModel;
 
     public FindBarView() {
         loadFXML();
@@ -53,11 +45,10 @@ public class FindBarView extends HBox {
         }
     }
 
-    @FXML
-    private void initialize() {
-    }
+    public void bind(FindViewModel findViewModel, FindTextContext findTextContext) {
+        this.findViewModel = findViewModel;
+        this.findTextContext = findTextContext;
 
-    public void bind() {
         this.visibleProperty().bind(findViewModel.isFindVisibleProperty());
         this.managedProperty().bind(findViewModel.isFindVisibleProperty());
         findViewModel.textProperty().bind(findTextContext.textAreaProperty());
@@ -124,6 +115,8 @@ public class FindBarView extends HBox {
     }
 
     public void unbind() {
+        if (findViewModel == null) return;
+
         this.visibleProperty().unbind();
         this.managedProperty().unbind();
         findViewModel.textProperty().unbind();

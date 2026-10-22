@@ -3,7 +3,6 @@ package org.yashgamerx.notepad.viewmodel;
 import javafx.beans.property.*;
 import javafx.scene.text.Font;
 import lombok.extern.java.Log;
-import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.service.settings.SettingsService;
 
 import java.util.logging.Level;
@@ -22,7 +21,6 @@ import java.util.logging.Level;
  * </ul>
  */
 @Log
-@Component
 public class NotepadViewModel {
 
     /** Single source of truth for default font size — shared with {@code NotepadTabView}. */

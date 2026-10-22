@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
-import org.jspecify.annotations.NonNull;
+import lombok.Getter;
 import org.yashgamerx.notepad.model.NotepadTabModel;
 import org.yashgamerx.notepad.service.file.FileService;
 import java.io.FileNotFoundException;
@@ -33,6 +33,8 @@ public class NotepadTabViewModel {
     // Dependencies
     private final NotepadTabModel model;
     private final FileService fileService;
+    @Getter
+    private final FindViewModel findViewModel;
 
     // Properties
     private final StringProperty content  = new SimpleStringProperty("");
@@ -43,9 +45,10 @@ public class NotepadTabViewModel {
     private boolean listenerAttached = false;
     private final ChangeListener<String> contentListener;
 
-    public NotepadTabViewModel(NotepadTabModel model, FileService fileService) {
+    public NotepadTabViewModel(NotepadTabModel model, FileService fileService, FindViewModel findViewModel) {
         this.model = model;
         this.fileService = fileService;
+        this.findViewModel = findViewModel;
         this.title.set(model.getTitle());
         this.contentListener = generateContentListener();
         // NOTE: the content listener is intentionally NOT attached here.
@@ -136,7 +139,7 @@ public class NotepadTabViewModel {
     /// Generates a [ChangeListener] that on modification of the content sets the modification status to true, removes
     /// the listener itself to avoid thread's consumption and changes the listenerAttached status to `false` so that
     /// when file is saved, the [NotepadTabViewModel#contentListener] can be attached again.
-    private @NonNull ChangeListener<String> generateContentListener() {
+    private ChangeListener<String> generateContentListener() {
         return (_, _, _) -> {
             modified.set(true);
             content.removeListener(contentListener);

@@ -1,6 +1,5 @@
 package org.yashgamerx.notepad.service.find;
 
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +12,6 @@ import java.util.regex.Pattern;
  * <p>OCP: New matching strategies (e.g. glob, fuzzy) can be added as additional
  * implementations of {@link TextFinder} without modifying this class.</p>
  */
-@Component
 public class RegexTextFinder implements TextFinder {
 
     @Override

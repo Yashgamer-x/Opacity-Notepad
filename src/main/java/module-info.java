@@ -11,12 +11,6 @@ module org.yashgamerx.notepad {
     // Lombok
     requires static lombok;
 
-    // Spring modules
-    requires spring.context;
-    requires spring.beans;
-    requires spring.core;
-    requires org.jspecify;
-
     // Ikonli
 //    requires org.kordamp.ikonli.core;
 //    requires org.kordamp.ikonli.javafx;
@@ -27,13 +21,12 @@ module org.yashgamerx.notepad {
     opens org.yashgamerx.notepad to javafx.fxml;
     opens org.yashgamerx.notepad.view to javafx.fxml, javafx.graphics;
     opens org.yashgamerx.notepad.view.find to javafx.fxml, javafx.graphics;
-    opens org.yashgamerx.notepad.generator to spring.beans, spring.core, spring.context;
-    opens org.yashgamerx.notepad.handler to spring.beans, spring.core, spring.context, javafx.fxml;
-    opens org.yashgamerx.notepad.viewmodel to spring.beans, spring.core, spring.context, javafx.fxml;
-    opens org.yashgamerx.notepad.model to spring.beans, spring.core, spring.context, javafx.fxml;
-    opens org.yashgamerx.notepad.service.file to javafx.fxml, spring.beans, spring.context, spring.core;
-    opens org.yashgamerx.notepad.service.find to javafx.fxml, spring.beans, spring.context, spring.core;
-    opens org.yashgamerx.notepad.service.settings to javafx.fxml, spring.beans, spring.context, spring.core;
+    opens org.yashgamerx.notepad.handler to javafx.fxml;
+    opens org.yashgamerx.notepad.viewmodel to javafx.fxml;
+    opens org.yashgamerx.notepad.model to javafx.fxml;
+    opens org.yashgamerx.notepad.service.file to javafx.fxml;
+    opens org.yashgamerx.notepad.service.find to javafx.fxml;
+    opens org.yashgamerx.notepad.service.settings to javafx.fxml;
 
     // --- EXPORTS ---
 

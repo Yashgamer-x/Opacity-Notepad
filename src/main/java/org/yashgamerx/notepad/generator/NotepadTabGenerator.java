@@ -1,25 +1,16 @@
 package org.yashgamerx.notepad.generator;
 
-import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.handler.TabNumberHandler;
 import org.yashgamerx.notepad.model.NotepadTabModel;
 import org.yashgamerx.notepad.model.TabContext;
 import org.yashgamerx.notepad.service.file.FileService;
-import org.yashgamerx.notepad.service.find.TextFinder;
 import org.yashgamerx.notepad.view.NotepadTabView;
+import org.yashgamerx.notepad.viewmodel.FindViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 
 import java.io.IOException;
 
-/**
- * Single source of truth for creating a fully wired {@link NotepadTabView}.
- *
- * <p>SRP: this class has one job — assemble the model → viewmodel → view
- * triad and return the ready-to-display tab.</p>
- *
- * <p>DIP: depends on {@link FileService} and {@link TextFinder} abstractions.</p>
- */
-@Component
+/** Builds a fully wired tab (model, viewmodel and view). */
 public class NotepadTabGenerator implements TabGenerator {
 
     private final FileService fileService;
@@ -40,7 +31,7 @@ public class NotepadTabGenerator implements TabGenerator {
                 : filePath.getFileName().toString();
 
         var model = new NotepadTabModel(title, filePath);
-        var vm = new NotepadTabViewModel(model, fileService);
+        var vm = new NotepadTabViewModel(model, fileService, new FindViewModel());
         var view = new NotepadTabView();
 
         view.bind(vm, context.wordWrap(), context.font());

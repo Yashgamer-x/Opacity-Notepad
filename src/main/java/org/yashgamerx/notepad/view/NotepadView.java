@@ -12,12 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.java.Log;
-import org.springframework.stereotype.Component;
 import org.yashgamerx.notepad.generator.TabGenerator;
-import org.yashgamerx.notepad.handler.TabNumberHandler;
-import org.yashgamerx.notepad.model.NotepadTabModel;
-import org.yashgamerx.notepad.service.file.FileService;
-import org.yashgamerx.notepad.view.find.FindBarView;
+import org.yashgamerx.notepad.model.TabContext;
 import org.yashgamerx.notepad.viewmodel.NotepadTabViewModel;
 import org.yashgamerx.notepad.viewmodel.NotepadViewModel;
 import java.io.FileNotFoundException;
@@ -26,31 +22,12 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Level;
 
-/**
- * Controller for the main notepad window.
- *
- * <h3>SOLID improvements over the original</h3>
- * <ul>
- *   <li><b>SRP</b>: tab creation is fully delegated to {@link TabGenerator} —
- *       this class no longer instantiates {@code NotepadTabModel} or
- *       {@code NotepadTabViewModel} directly.</li>
- *   <li><b>DIP</b>: depends only on {@link TabGenerator},
- *       and {@link NotepadViewModel} interfaces/beans — never on concrete classes.</li>
- *   <li><b>OCP</b>: Find support is added by wiring the existing
- *       {@link FindBarView} already embedded in each {@link NotepadTabView},
- *       with no changes to tab or file logic.</li>
- *   <li>Stage is passed via {@link #initStage(Stage)} — no global singleton.</li>
- *   <li>{@link NotepadTabView#unbind()} is called on tab close to release
- *       all JavaFX binding references.</li>
- * </ul>
- */
+/** Controller for the main notepad window. */
 @Log
-@Component
 public class NotepadView extends VBox {
 
     private final NotepadViewModel viewModel;
-    private final TabNumberHandler tabNumberHandler;
-    private final FileService fileService;
+    private final TabGenerator tabGenerator;
 
     private Stage stage;
 
@@ -58,12 +35,9 @@ public class NotepadView extends VBox {
     @FXML private Slider scaleSlider;
     @FXML private CheckMenuItem  wordWrapCheckMenuItem;
 
-    public NotepadView(NotepadViewModel viewModel,
-                       TabNumberHandler tabNumberHandler,
-                       FileService fileService) {
-        this.viewModel    = viewModel;
-        this.tabNumberHandler = tabNumberHandler;
-        this.fileService = fileService;
+    public NotepadView(NotepadViewModel viewModel, TabGenerator tabGenerator) {
+        this.viewModel = viewModel;
+        this.tabGenerator = tabGenerator;
 
         loadFXML();
     }
@@ -177,23 +151,10 @@ public class NotepadView extends VBox {
 
     // --- Private helpers ---
 
-    /**
-     * Creates a new tab via the {@link TabGenerator}.
-     * This is the single place in the view layer that constructs tabs —
-     * satisfying SRP (NotepadView does not build models/viewmodels itself).
-     */
     private void createNewTab(Path filePath) {
         try {
-            String title = (filePath == null)
-                    ? "Untitled " + tabNumberHandler.postIncrement()
-                    : filePath.getFileName().toString();
-
-            var model = new NotepadTabModel(title, filePath);
-            var vm = new NotepadTabViewModel(model, fileService);
-            var tabView = new NotepadTabView();
-
-            tabView.bind(vm, viewModel.wordWrapProperty(), viewModel.fontProperty());
-            vm.load();
+            var context = new TabContext(filePath, viewModel.wordWrapProperty(), viewModel.fontProperty());
+            var tabView = tabGenerator.generate(context);
 
             tabView.setOnClosed(_ -> tabView.unbind());
 

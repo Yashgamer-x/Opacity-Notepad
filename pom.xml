@@ -18,7 +18,6 @@
         <javafx.version>25.0.1</javafx.version>
         <junit.version>5.12.1</junit.version>
         <lombok.version>1.18.38</lombok.version>
-        <spring.version>7.0.8</spring.version>
         <ikonli.version>12.4.0</ikonli.version>
     </properties>
 
@@ -58,13 +57,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/org.springframework/spring-context -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-javafx</artifactId>
